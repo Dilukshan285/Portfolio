@@ -41,7 +41,7 @@ const highlights = [
 ];
 
 const stats = [
-  { value: 7, suffix: "+", label: "Projects Built" },
+  { value: 8, suffix: "+", label: "Projects Built" },
   { value: 2, suffix: "", label: "UK Clients" },
   { value: 10, suffix: "", label: "AI Diseases Dx" },
   { value: 0.89, suffix: "", label: "AUROC Score" },

@@ -268,7 +268,7 @@ export const Hero = () => {
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
               >
-                <div className="text-2xl font-bold text-gradient">7+</div>
+                <div className="text-2xl font-bold text-gradient">8+</div>
                 <div className="text-xs text-muted-foreground font-mono">Projects</div>
               </motion.div>
             </div>
