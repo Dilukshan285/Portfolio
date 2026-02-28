@@ -9,49 +9,68 @@ import {
   Sparkles,
 } from "lucide-react";
 import { AnimatedBorderButton } from "../components/AnimatedBorderButton";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
 import { MagneticButton } from "@/components/Reveal";
+import { FloatingGeometry } from "@/components/FloatingGeometry";
+import { useRef, useState, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 const skills = [
-  "React.js",
-  "Next.js",
-  "Node.js",
-  "Express.js",
-  "Python",
-  "PyTorch",
-  "MongoDB",
-  "MySQL",
-  "Tailwind CSS",
-  "Redux Toolkit",
-  "FastAPI",
-  "Spring Boot",
-  "Firebase",
-  "Git",
-  "AWS",
-  "YOLOv8",
-  "GitHub Actions",
-  "Jest",
-  "Cypress",
+  "React.js", "Next.js", "Node.js", "Express.js", "Python", "PyTorch",
+  "MongoDB", "MySQL", "Tailwind CSS", "Redux Toolkit", "FastAPI",
+  "Spring Boot", "Firebase", "Git", "AWS", "YOLOv8", "GitHub Actions",
+  "Jest", "Cypress",
 ];
 
 const socialLinks = [
-  {
-    icon: Github,
-    href: "https://github.com/Dilukshan285",
-    label: "GitHub",
-  },
-  {
-    icon: Linkedin,
-    href: "https://linkedin.com/in/dilukshan-viyapury",
-    label: "LinkedIn",
-  },
-  {
-    icon: Mail,
-    href: "mailto:dilukshanviyapury25@gmail.com",
-    label: "Email",
-  },
+  { icon: Github, href: "https://github.com/Dilukshan285", label: "GitHub" },
+  { icon: Linkedin, href: "https://linkedin.com/in/dilukshan-viyapury", label: "LinkedIn" },
+  { icon: Mail, href: "mailto:dilukshanviyapury25@gmail.com", label: "Email" },
 ];
+
+// Magnetic social button with spring physics
+const MagneticSocialButton = ({ social, idx }) => {
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 200, damping: 15 });
+  const springY = useSpring(y, { stiffness: 200, damping: 15 });
+
+  const handleMouseMove = (e) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set((e.clientX - centerX) * 0.3);
+    y.set((e.clientY - centerY) * 0.3);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.a
+      ref={ref}
+      href={social.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={social.label}
+      className="p-3 rounded-xl glass hover:bg-primary/10 hover:text-primary hover:border-primary/30 transition-all duration-300"
+      style={{ x: springX, y: springY }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1 + idx * 0.1 }}
+    >
+      <social.icon className="w-5 h-5" />
+    </motion.a>
+  );
+};
 
 export const Hero = () => {
   return (
@@ -62,6 +81,8 @@ export const Hero = () => {
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/8 rounded-full blur-[120px] animate-aurora" />
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-accent/6 rounded-full blur-[120px] animate-aurora animation-delay-300" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-accent-blue/5 rounded-full blur-[100px] animate-aurora animation-delay-600" />
+        {/* Morphing blob */}
+        <div className="absolute top-1/3 right-1/3 w-[300px] h-[300px] bg-primary/5 morphing-blob blur-[80px]" />
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -72,15 +93,18 @@ export const Hero = () => {
         />
       </div>
 
+      {/* 3D Floating Geometry — behind everything */}
+      <FloatingGeometry />
+
       {/* Content */}
       <div className="container mx-auto px-6 pt-32 pb-20 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Column */}
           <div className="space-y-8">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.8 }}
             >
               <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-primary border border-primary/20">
                 <Sparkles className="w-4 h-4" />
@@ -92,41 +116,50 @@ export const Hero = () => {
             <div className="space-y-5">
               <motion.h1
                 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
+                initial={{ opacity: 0, y: 40, filter: "blur(15px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 1, delay: 0.2 }}
               >
-                <span className="block">Building</span>
-                <span className="block text-gradient">
+                <motion.span
+                  className="block"
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                >
+                  Building
+                </motion.span>
+                <span className="block text-gradient glow-text">
                   <TypeAnimation
                     sequence={[
-                      "intelligent",
-                      2500,
-                      "production",
-                      2500,
-                      "innovative",
-                      2500,
-                      "scalable",
-                      2500,
+                      "intelligent", 2500,
+                      "production", 2500,
+                      "innovative", 2500,
+                      "scalable", 2500,
                     ]}
                     wrapper="span"
                     speed={40}
                     repeat={Infinity}
+                    cursor={true}
                   />
                 </span>
-                <span className="block">
+                <motion.span
+                  className="block"
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                >
                   systems with{" "}
                   <span className="font-serif italic font-normal">
                     precision.
                   </span>
-                </span>
+                </motion.span>
               </motion.h1>
 
               <motion.p
                 className="text-lg text-muted-foreground max-w-xl leading-relaxed"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
+                initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.8, delay: 0.6 }}
               >
                 Hi, I'm{" "}
                 <span className="text-foreground font-semibold">
@@ -143,7 +176,7 @@ export const Hero = () => {
               className="flex flex-wrap gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
             >
               <MagneticButton>
                 <a href="#contact">
@@ -153,7 +186,7 @@ export const Hero = () => {
                 </a>
               </MagneticButton>
               <MagneticButton>
-                <a href="/cv.html" target="_blank" rel="noopener noreferrer">
+                <a href={`${import.meta.env.BASE_URL}cv.html`} target="_blank" rel="noopener noreferrer">
                   <AnimatedBorderButton>
                     <Download className="w-5 h-5" />
                     Download CV
@@ -162,36 +195,25 @@ export const Hero = () => {
               </MagneticButton>
             </motion.div>
 
-            {/* Social Links */}
+            {/* Social Links — Magnetic */}
             <motion.div
               className="flex items-center gap-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
+              transition={{ duration: 0.6, delay: 1 }}
             >
               <span className="text-sm text-muted-foreground font-mono">
                 Find me →
               </span>
               {socialLinks.map((social, idx) => (
-                <motion.a
-                  key={idx}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="p-2.5 rounded-xl glass hover:bg-primary/10 hover:text-primary hover:border-primary/30 transition-all duration-300"
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <social.icon className="w-5 h-5" />
-                </motion.a>
+                <MagneticSocialButton key={idx} social={social} idx={idx} />
               ))}
             </motion.div>
           </div>
 
-          {/* Right Column - Profile Image */}
+          {/* Right Column — Profile Card (high z-index, no 3D overlap) */}
           <motion.div
-            className="relative"
+            className="relative z-20"
             initial={{ opacity: 0, scale: 0.9, x: 40 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
@@ -213,7 +235,7 @@ export const Hero = () => {
               />
               <div className="absolute -inset-3 rounded-[2rem] bg-background" />
 
-              <div className="relative glass rounded-[1.5rem] p-1.5 glow-border">
+              <div className="relative glass rounded-[1.5rem] p-1.5 glow-border holographic">
                 <img
                   src={`${import.meta.env.BASE_URL}dilu.png`}
                   alt="Dilukshan Viyapury"
@@ -221,45 +243,34 @@ export const Hero = () => {
                 />
 
                 <div className="absolute bottom-1.5 left-1.5 right-1.5 h-1/3 bg-gradient-to-t from-background/80 to-transparent rounded-b-[1.25rem]" />
-
-                {/* Floating Badge - Available */}
-                <motion.div
-                  className="absolute -bottom-5 -right-5 glass rounded-2xl px-5 py-3 border border-green-500/20"
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="relative flex h-3 w-3">
-                      <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
-                      <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
-                    </span>
-                    <span className="text-sm font-medium">
-                      Available for work
-                    </span>
-                  </div>
-                </motion.div>
-
-                {/* Stats Badge */}
-                <motion.div
-                  className="absolute -top-5 -left-5 glass rounded-2xl px-5 py-3 border border-primary/20"
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{
-                    duration: 5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1,
-                  }}
-                >
-                  <div className="text-2xl font-bold text-gradient">7+</div>
-                  <div className="text-xs text-muted-foreground font-mono">
-                    Projects
-                  </div>
-                </motion.div>
               </div>
+
+              {/* Floating Badge — Available (outside holographic container) */}
+              <motion.div
+                className="absolute -bottom-5 -right-5 glass rounded-2xl px-5 py-3 border border-green-500/20 z-30"
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="relative flex h-3 w-3">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
+                    <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
+                  </span>
+                  <span className="text-sm font-medium">
+                    Available for work
+                  </span>
+                </div>
+              </motion.div>
+
+              {/* Stats Badge — 7+ Projects (outside holographic container) */}
+              <motion.div
+                className="absolute -top-5 -left-5 glass rounded-2xl px-5 py-3 border border-primary/20 z-30"
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              >
+                <div className="text-2xl font-bold text-gradient">7+</div>
+                <div className="text-xs text-muted-foreground font-mono">Projects</div>
+              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -269,7 +280,7 @@ export const Hero = () => {
           className="mt-24"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
+          transition={{ duration: 1, delay: 1.2 }}
         >
           <p className="text-xs text-muted-foreground mb-6 text-center uppercase tracking-[0.2em] font-mono">
             Technologies I Work With
@@ -292,7 +303,7 @@ export const Hero = () => {
 
       {/* Scroll Indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}

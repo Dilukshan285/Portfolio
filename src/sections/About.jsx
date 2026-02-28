@@ -1,5 +1,9 @@
 import { Code2, BrainCircuit, Rocket, Users } from "lucide-react";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
+import { TiltCard } from "@/components/TiltCard";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
 
 const highlights = [
   {
@@ -8,6 +12,7 @@ const highlights = [
     description:
       "Production-grade MERN applications shipped for international UK clients with CI/CD pipelines.",
     color: "primary",
+    gradient: "from-primary to-accent-blue",
   },
   {
     icon: BrainCircuit,
@@ -15,6 +20,7 @@ const highlights = [
     description:
       "Federated learning, computer vision (YOLO), NLP, and explainable AI research on medical datasets.",
     color: "accent",
+    gradient: "from-accent to-accent-pink",
   },
   {
     icon: Rocket,
@@ -22,6 +28,7 @@ const highlights = [
     description:
       "Live payroll portals, e-commerce platforms, and automated DevOps workflows deployed at scale.",
     color: "accent-blue",
+    gradient: "from-accent-blue to-primary",
   },
   {
     icon: Users,
@@ -29,15 +36,56 @@ const highlights = [
     description:
       "Cross-functional teamwork with UK-based stakeholders, Agile sprints, and clear communication.",
     color: "accent-pink",
+    gradient: "from-accent-pink to-highlight",
   },
 ];
 
 const stats = [
-  { value: "7+", label: "Projects Built" },
-  { value: "2", label: "UK Clients" },
-  { value: "10", label: "AI Diseases Dx" },
-  { value: "0.89", label: "AUROC Score" },
+  { value: 7, suffix: "+", label: "Projects Built" },
+  { value: 2, suffix: "", label: "UK Clients" },
+  { value: 10, suffix: "", label: "AI Diseases Dx" },
+  { value: 0.89, suffix: "", label: "AUROC Score" },
 ];
+
+const AnimatedCounter = ({ value, suffix = "", label }) => {
+  const [count, setCount] = useState(0);
+  const [ref, inView] = useInView({ threshold: 0.5, triggerOnce: true });
+
+  useEffect(() => {
+    if (!inView) return;
+    const isFloat = String(value).includes(".");
+    const duration = 2000;
+    const steps = 60;
+    const increment = value / steps;
+    let current = 0;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= value) {
+        setCount(value);
+        clearInterval(timer);
+      } else {
+        setCount(isFloat ? parseFloat(current.toFixed(2)) : Math.floor(current));
+      }
+    }, duration / steps);
+    return () => clearInterval(timer);
+  }, [inView, value]);
+
+  return (
+    <div ref={ref} className="text-center">
+      <motion.div
+        className="text-2xl md:text-3xl font-bold text-gradient"
+        initial={{ scale: 0.5, opacity: 0 }}
+        animate={inView ? { scale: 1, opacity: 1 } : {}}
+        transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+      >
+        {count}{suffix}
+      </motion.div>
+      <div className="text-xs text-muted-foreground mt-1 font-mono">
+        {label}
+      </div>
+    </div>
+  );
+};
 
 export const About = () => {
   return (
@@ -91,7 +139,7 @@ export const About = () => {
             </Reveal>
 
             <Reveal delay={0.3}>
-              <div className="glass rounded-2xl p-6 glow-border relative overflow-hidden shine">
+              <div className="glass rounded-2xl p-6 glow-border relative overflow-hidden shine holographic">
                 <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary via-accent to-accent-blue" />
                 <p className="text-lg font-medium italic text-foreground pl-4">
                   "My mission is to build intelligent, production-grade systems
@@ -101,38 +149,46 @@ export const About = () => {
               </div>
             </Reveal>
 
-            {/* Stats Row */}
+            {/* Animated Stats Row */}
             <Reveal delay={0.4}>
               <div className="grid grid-cols-4 gap-4">
                 {stats.map((stat, idx) => (
-                  <div key={idx} className="text-center">
-                    <div className="text-2xl md:text-3xl font-bold text-gradient">
-                      {stat.value}
-                    </div>
-                    <div className="text-xs text-muted-foreground mt-1 font-mono">
-                      {stat.label}
-                    </div>
-                  </div>
+                  <AnimatedCounter
+                    key={idx}
+                    value={stat.value}
+                    suffix={stat.suffix}
+                    label={stat.label}
+                  />
                 ))}
               </div>
             </Reveal>
           </div>
 
-          {/* Right Column - Highlights */}
+          {/* Right Column - 3D Tilt Highlight Cards */}
           <StaggerContainer className="grid sm:grid-cols-2 gap-5" staggerDelay={0.12}>
             {highlights.map((item, idx) => (
               <StaggerItem key={idx}>
-                <div className="glass p-6 rounded-2xl card-hover shine group border border-transparent hover:border-primary/20">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-500">
-                    <item.icon className="w-6 h-6 text-primary" />
+                <TiltCard tiltAmount={12}>
+                  <div className="glass p-6 rounded-2xl shine group border border-transparent hover:border-primary/20 relative overflow-hidden">
+                    {/* Top accent line */}
+                    <div
+                      className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${item.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                    />
+
+                    <motion.div
+                      className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-all duration-500"
+                      whileHover={{ scale: 1.15, rotate: 5 }}
+                    >
+                      <item.icon className="w-6 h-6 text-primary" />
+                    </motion.div>
+                    <h3 className="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {item.description}
+                    </p>
                   </div>
-                  <h3 className="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
+                </TiltCard>
               </StaggerItem>
             ))}
           </StaggerContainer>

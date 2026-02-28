@@ -8,6 +8,7 @@ import {
   Globe,
 } from "lucide-react";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
+import { TiltCard } from "@/components/TiltCard";
 import { motion } from "framer-motion";
 
 const skillCategories = [
@@ -16,6 +17,7 @@ const skillCategories = [
     title: "Languages",
     skills: ["Python", "JavaScript", "Java", "PHP", "HTML5", "CSS3", "SQL"],
     gradient: "from-primary to-accent-blue",
+    glowColor: "rgba(0, 212, 170, 0.15)",
   },
   {
     icon: Globe,
@@ -30,18 +32,21 @@ const skillCategories = [
       "i18next",
     ],
     gradient: "from-accent-blue to-accent",
+    glowColor: "rgba(79, 195, 247, 0.15)",
   },
   {
     icon: Server,
     title: "Backend",
     skills: ["Node.js", "Express.js", "Spring Boot", "Flask", "FastAPI"],
     gradient: "from-accent to-accent-pink",
+    glowColor: "rgba(108, 99, 255, 0.15)",
   },
   {
     icon: Database,
     title: "Databases",
     skills: ["MongoDB", "MongoDB Atlas", "MySQL", "Mongoose"],
     gradient: "from-accent-pink to-highlight",
+    glowColor: "rgba(255, 107, 157, 0.15)",
   },
   {
     icon: BrainCircuit,
@@ -54,6 +59,7 @@ const skillCategories = [
       "XAI (Grad-CAM, LIME, SHAP)",
     ],
     gradient: "from-highlight to-primary",
+    glowColor: "rgba(245, 166, 35, 0.15)",
   },
   {
     icon: Eye,
@@ -67,6 +73,7 @@ const skillCategories = [
       "BeautifulSoup",
     ],
     gradient: "from-primary to-accent",
+    glowColor: "rgba(0, 212, 170, 0.15)",
   },
   {
     icon: Wrench,
@@ -83,6 +90,7 @@ const skillCategories = [
       "ExcelJS",
     ],
     gradient: "from-accent to-accent-blue",
+    glowColor: "rgba(108, 99, 255, 0.15)",
   },
 ];
 
@@ -135,35 +143,43 @@ export const Testimonials = () => {
         >
           {skillCategories.map((category, idx) => (
             <StaggerItem key={idx}>
-              <motion.div
-                className="glass p-6 rounded-2xl card-hover shine border border-transparent hover:border-primary/20 group relative overflow-hidden"
-                whileHover={{ scale: 1.03 }}
-                transition={{ duration: 0.3 }}
-              >
-                {/* Top accent line */}
-                <div
-                  className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${category.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-                />
+              <TiltCard tiltAmount={10}>
+                <motion.div
+                  className="glass p-6 rounded-2xl shine border border-transparent hover:border-primary/20 group relative overflow-hidden h-full"
+                  whileHover={{
+                    boxShadow: `0 0 40px ${category.glowColor}, 0 0 80px ${category.glowColor}`,
+                  }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {/* Top accent line */}
+                  <div
+                    className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${category.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                  />
 
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-500">
-                    <category.icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">
-                    {category.title}
-                  </h3>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {category.skills.map((skill, skillIdx) => (
-                    <span
-                      key={skillIdx}
-                      className="px-3 py-1.5 rounded-full bg-surface text-xs font-mono border border-border/50 text-muted-foreground hover:border-primary/50 hover:text-primary transition-all duration-300 cursor-default"
+                  <div className="flex items-center gap-3 mb-5">
+                    <motion.div
+                      className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-500"
+                      whileHover={{ scale: 1.15, rotate: 10 }}
                     >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
+                      <category.icon className="w-5 h-5 text-primary" />
+                    </motion.div>
+                    <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">
+                      {category.title}
+                    </h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {category.skills.map((skill, skillIdx) => (
+                      <motion.span
+                        key={skillIdx}
+                        className="px-3 py-1.5 rounded-full bg-surface text-xs font-mono border border-border/50 text-muted-foreground hover:border-primary/50 hover:text-primary transition-all duration-300 cursor-default"
+                        whileHover={{ scale: 1.05, y: -2 }}
+                      >
+                        {skill}
+                      </motion.span>
+                    ))}
+                  </div>
+                </motion.div>
+              </TiltCard>
             </StaggerItem>
           ))}
         </StaggerContainer>
@@ -179,7 +195,8 @@ export const Testimonials = () => {
                 <motion.span
                   key={idx}
                   className="px-4 py-2 rounded-full glass text-sm font-medium text-muted-foreground hover:text-primary hover:border-primary/30 transition-all duration-300 cursor-default"
-                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileHover={{ scale: 1.08, y: -3 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   {method}
                 </motion.span>

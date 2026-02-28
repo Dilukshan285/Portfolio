@@ -1,6 +1,7 @@
 import { ArrowUpRight, Github, ExternalLink } from "lucide-react";
 import { AnimatedBorderButton } from "@/components/AnimatedBorderButton";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
+import { TiltCard } from "@/components/TiltCard";
 import { motion } from "framer-motion";
 
 const base = import.meta.env.BASE_URL;
@@ -128,86 +129,99 @@ export const Projects = () => {
         >
           {projects.map((project, idx) => (
             <StaggerItem key={idx}>
-              <motion.div
-                className={`group glass rounded-2xl overflow-hidden card-hover shine border border-transparent hover:border-primary/20 ${project.featured ? "md:row-span-1" : ""
-                  }`}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.3 }}
-              >
-                {/* Image */}
-                <div className="relative overflow-hidden aspect-video">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              <TiltCard tiltAmount={6} className="h-full">
+                <motion.div
+                  className={`group glass rounded-2xl overflow-hidden shine border border-transparent hover:border-primary/20 relative h-full ${project.featured ? "md:row-span-1" : ""
+                    }`}
+                >
+                  {/* Rotating border glow on hover */}
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                    style={{
+                      background: `conic-gradient(from 0deg at 50% 50%, transparent 0deg, var(--color-primary) 60deg, transparent 120deg)`,
+                      filter: "blur(20px)",
+                      transform: "scale(1.05)",
+                    }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent opacity-60" />
 
-                  {/* Badge */}
-                  {project.badge && (
-                    <div className="absolute top-3 left-3 z-10">
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-semibold border backdrop-blur-sm ${getBadgeClasses(
-                          project.badge
-                        )}`}
-                      >
-                        {project.badge}
-                      </span>
+                  {/* Image */}
+                  <div className="relative overflow-hidden aspect-video">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent opacity-60" />
+
+                    {/* Badge */}
+                    {project.badge && (
+                      <div className="absolute top-3 left-3 z-10">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-semibold border backdrop-blur-sm ${getBadgeClasses(
+                            project.badge
+                          )}`}
+                        >
+                          {project.badge}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Overlay Links */}
+                    <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-background/20 backdrop-blur-sm">
+                      {project.link !== "#" && (
+                        <motion.a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-3 rounded-full glass hover:bg-primary hover:text-primary-foreground transition-all border border-primary/30"
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <ExternalLink className="w-5 h-5" />
+                        </motion.a>
+                      )}
+                      {project.github !== "#" && (
+                        <motion.a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-3 rounded-full glass hover:bg-primary hover:text-primary-foreground transition-all border border-primary/30"
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Github className="w-5 h-5" />
+                        </motion.a>
+                      )}
                     </div>
-                  )}
+                  </div>
 
-                  {/* Overlay Links */}
-                  <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-background/20 backdrop-blur-sm">
-                    {project.link !== "#" && (
-                      <motion.a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-3 rounded-full glass hover:bg-primary hover:text-primary-foreground transition-all border border-primary/30"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <ExternalLink className="w-5 h-5" />
-                      </motion.a>
-                    )}
-                    {project.github !== "#" && (
-                      <motion.a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-3 rounded-full glass hover:bg-primary hover:text-primary-foreground transition-all border border-primary/30"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <Github className="w-5 h-5" />
-                      </motion.a>
-                    )}
+                  {/* Content */}
+                  <div className="p-6 space-y-4 relative z-10">
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
+                        {project.title}
+                      </h3>
+                      <ArrowUpRight className="w-5 h-5 flex-shrink-0 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                    </div>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag, tagIdx) => (
+                        <motion.span
+                          key={tagIdx}
+                          className="px-3 py-1.5 rounded-full bg-surface text-xs font-medium font-mono border border-border/50 text-muted-foreground hover:border-primary/50 hover:text-primary transition-all duration-300"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: tagIdx * 0.05 }}
+                          viewport={{ once: true }}
+                        >
+                          {tag}
+                        </motion.span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6 space-y-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
-                      {project.title}
-                    </h3>
-                    <ArrowUpRight className="w-5 h-5 flex-shrink-0 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
-                  </div>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, tagIdx) => (
-                      <span
-                        key={tagIdx}
-                        className="px-3 py-1.5 rounded-full bg-surface text-xs font-medium font-mono border border-border/50 text-muted-foreground hover:border-primary/50 hover:text-primary transition-all duration-300"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </TiltCard>
             </StaggerItem>
           ))}
         </StaggerContainer>
