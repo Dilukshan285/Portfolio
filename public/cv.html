@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dilukshan Viyapury — CV</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Calibri, "Segoe UI", Arial, sans-serif; font-size: 10.5pt; color: #000; line-height: 1.3; background: #c8c8c8; }
+        a { color: #000; text-decoration: none; }
+
+        .page { width: 210mm; min-height: 297mm; margin: 20px auto; background: #fff; padding: 13mm 17mm; box-shadow: 0 2px 24px rgba(0,0,0,0.18); }
+
+        /* screen page-break ruler */
+        .pb-ruler { border-top: 2px dashed #aaa; margin: 13pt 0; position: relative; }
+        .pb-ruler::after { content: "── page 2 on print ──"; position: absolute; top: -8pt; left: 50%; transform: translateX(-50%); background: #c8c8c8; font-size: 7pt; color: #999; padding: 0 8pt; white-space: nowrap; }
+
+        /* HEADER */
+        .header { text-align: center; padding-bottom: 7pt; border-bottom: 2pt solid #000; margin-bottom: 9pt; }
+        .header h1 { font-size: 21pt; font-weight: bold; letter-spacing: 3pt; margin-bottom: 3pt; }
+        .header .sub { font-size: 10pt; color: #333; margin-bottom: 5pt; }
+        .header .cl { font-size: 8.8pt; color: #222; margin-bottom: 2pt; }
+
+        /* SECTIONS */
+        .sec { margin-bottom: 9pt; }
+        .st { font-size: 9.8pt; font-weight: bold; text-transform: uppercase; letter-spacing: 1.8pt; border-bottom: 1.5pt solid #000; padding-bottom: 3pt; margin-bottom: 7pt; }
+
+        /* summary */
+        .summary { font-size: 9.3pt; line-height: 1.48; color: #111; }
+
+        /* skills */
+        .sk { width: 100%; border-collapse: collapse; }
+        .sk td { font-size: 9.3pt; padding: 1.6pt 0; vertical-align: top; }
+        .sk td:first-child { font-weight: bold; width: 105pt; padding-right: 6pt; }
+
+        /* entries (exp / edu) */
+        .entry { margin-bottom: 8pt; }
+        .entry:last-child { margin-bottom: 0; }
+        .eh { display: table; width: 100%; }
+        .el { display: table-cell; vertical-align: top; }
+        .er { display: table-cell; text-align: right; vertical-align: top; white-space: nowrap; font-size: 8.8pt; color: #333; padding-left: 8pt; }
+        .et { font-size: 9.8pt; font-weight: bold; }
+        .eo { font-size: 9.3pt; color: #444; margin-top: 1pt; }
+        .ebl { margin: 3pt 0 0 13pt; font-size: 9.3pt; line-height: 1.38; }
+        .ebl li { margin-bottom: 1pt; }
+
+        /* projects */
+        .proj { margin-bottom: 10pt; }
+        .proj:last-child { margin-bottom: 0; }
+        .ph { display: table; width: 100%; }
+        .pl { display: table-cell; vertical-align: top; }
+        .pr { display: table-cell; text-align: right; vertical-align: top; white-space: nowrap; font-size: 8.5pt; color: #555; padding-left: 8pt; min-width: 80pt; }
+        .pn { font-size: 9.8pt; font-weight: bold; }
+        .badge { display: inline-block; font-size: 6.8pt; font-weight: bold; color: #fff; padding: 0.8pt 4pt; border-radius: 2pt; vertical-align: middle; margin-left: 3pt; letter-spacing: 0.2pt; }
+        .b-rsch { background: #1a2a8a; }
+        .b-live { background: #1a6b2a; }
+        .b-cli  { background: #7a3800; }
+        .b-prog { background: #555; }
+        .pd { font-size: 9pt; color: #111; margin-top: 2pt; line-height: 1.36; }
+        .pt { font-size: 8.8pt; color: #333; margin-top: 1.5pt; }
+        .pt strong { font-weight: bold; }
+        .plink { font-size: 8.3pt; color: #222; margin-top: 1pt; }
+
+        /* inline text */
+        .tl { font-size: 9.3pt; line-height: 1.5; }
+
+        /* ref */
+        .rcard { margin-bottom: 0; }
+        .rn { font-size: 9.8pt; font-weight: bold; }
+        .rp { font-size: 9pt; color: #333; margin-top: 1.5pt; }
+        .rc { font-size: 8.8pt; color: #444; margin-top: 1.5pt; }
+
+        /* two col */
+        .tcol { display: table; width: 100%; }
+        .tcol .c { display: table-cell; vertical-align: top; width: 50%; }
+        .tcol .c:first-child { padding-right: 14pt; }
+
+        /* download */
+        .dlbar { text-align: center; padding: 12px 0 10px; }
+        .dlbtn { padding: 11px 42px; background: #1a2b4a; color: #fff; border: none; border-radius: 7px; font-family: Calibri, sans-serif; font-size: 13px; font-weight: bold; cursor: pointer; }
+        .dlbtn:hover { background: #2d4a7a; }
+
+        @media print {
+            @page { margin: 9mm 13mm; size: A4; }
+            body { background: #fff; }
+            .dlbar, .pb-ruler { display: none !important; }
+            .page { width: 100%; margin: 0; padding: 0; box-shadow: none; min-height: unset; }
+            .pb { page-break-before: always; break-before: page; }
+            .sec { page-break-inside: avoid; }
+            .entry, .proj { page-break-inside: avoid; break-inside: avoid; }
+            .st { page-break-after: avoid; break-after: avoid; }
+            .badge { border: 0.8pt solid #444; background: #fff !important; color: #000 !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="dlbar">
+    <button class="dlbtn" onclick="window.print()">&#8659;&nbsp; Download 2-Page CV as PDF</button>
+</div>
+
+<div class="page">
+
+<!-- HEADER -->
+<div class="header">
+    <h1>DILUKSHAN VIYAPURY</h1>
+    <div class="sub">IT Undergraduate &nbsp;|&nbsp; Full-Stack Developer &nbsp;|&nbsp; AI/ML Researcher</div>
+    <div class="cl">dilukshanviyapury25@gmail.com &nbsp;&bull;&nbsp; +94 77 052 2002 &nbsp;&bull;&nbsp; Dehiwala, Colombo, Sri Lanka</div>
+    <div class="cl">
+        <a href="https://github.com/Dilukshan285">github.com/Dilukshan285</a>
+        &nbsp;&bull;&nbsp;
+        <a href="https://www.linkedin.com/in/dilukshan-viyapury-a26046328/">linkedin.com/in/dilukshan-viyapury</a>
+    </div>
+</div>
+
+<!-- SUMMARY -->
+<div class="sec">
+    <div class="st">Professional Summary</div>
+    <p class="summary">Final-year BSc Information Technology undergraduate at SLIIT with a track record of shipping production systems for international UK clients, conducting active AI/ML research in federated medical learning, and building full-stack applications across diverse tech stacks. Fluent across the MERN stack, Python deep learning, computer vision (YOLO), NLP/semantic search, and DevOps practices including CI/CD pipelines. Seeking an internship or junior engineering role to apply hands-on, industry-grade development experience.</p>
+</div>
+
+<!-- SKILLS -->
+<div class="sec">
+    <div class="st">Technical Skills</div>
+    <table class="sk">
+        <tr><td>Languages</td><td>Python, JavaScript, Java, PHP, HTML5, CSS3, SQL</td></tr>
+        <tr><td>Frontend</td><td>React.js (v18/v19), Redux Toolkit, Next.js, Tailwind CSS, Vite, Framer Motion, i18next</td></tr>
+        <tr><td>Backend</td><td>Node.js, Express.js, Spring Boot, Flask, FastAPI</td></tr>
+        <tr><td>Databases</td><td>MongoDB, MongoDB Atlas, MySQL, Mongoose</td></tr>
+        <tr><td>AI / ML</td><td>PyTorch, scikit-learn, Federated Learning (DW-FedAvg), NLP, XAI (Grad-CAM, LIME, SHAP)</td></tr>
+        <tr><td>Vision &amp; Data</td><td>YOLOv8, YOLO11, Sentence Transformers (SBERT), Pandas, NumPy, BeautifulSoup</td></tr>
+        <tr><td>Tools &amp; DevOps</td><td>Git, GitHub Actions (CI/CD), Jest, Cypress E2E, Firebase, Postman, AWS, CUDA, ExcelJS</td></tr>
+        <tr><td>Methodologies</td><td>RESTful APIs, MVC, OOP, Agile/Scrum, SDLC, JWT Auth, Audit Logging</td></tr>
+    </table>
+</div>
+
+<!-- EXPERIENCE -->
+<div class="sec">
+    <div class="st">Work Experience</div>
+    <div class="entry">
+        <div class="eh">
+            <div class="el"><div class="et">Sales Executive</div><div class="eo">IPOSG, Sri Lanka</div></div>
+            <div class="er">Feb 2023 – Aug 2023</div>
+        </div>
+        <ul class="ebl">
+            <li>Managed a portfolio of B2B client accounts and consistently met sales targets in a commercial environment.</li>
+            <li>Coordinated cross-functional teams to deliver tailored client solutions; strengthened negotiation and stakeholder communication skills.</li>
+        </ul>
+    </div>
+</div>
+
+<!-- EDUCATION -->
+<div class="sec">
+    <div class="st">Education</div>
+    <div class="entry">
+        <div class="eh">
+            <div class="el"><div class="et">BSc (Hons) in Information Technology</div><div class="eo">Sri Lanka Institute of Information Technology (SLIIT) — 4th Year, 1st Semester</div></div>
+            <div class="er">2023 – Present</div>
+        </div>
+    </div>
+    <div class="entry">
+        <div class="eh">
+            <div class="el"><div class="et">G.C.E. Advanced Level — Commerce Stream</div><div class="eo">Bambalapitiya Hindu College, Colombo</div></div>
+            <div class="er">2019 – 2021</div>
+        </div>
+    </div>
+    <div class="entry">
+        <div class="eh">
+            <div class="el"><div class="et">Diploma in Information Technology</div><div class="eo">ESOFT Metro Campus, Sri Lanka</div></div>
+            <div class="er">2018</div>
+        </div>
+    </div>
+    <div class="entry">
+        <div class="eh">
+            <div class="el"><div class="et">G.C.E. Ordinary Level</div><div class="eo">Bambalapitiya Hindu College, Colombo</div></div>
+            <div class="er">2017</div>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE BREAK -->
+<div class="pb-ruler"></div>
+<div class="pb"></div>
+
+<!-- PROJECTS — ordered: In Progress → Deployed → Academic (descending sophistication) -->
+<div class="sec">
+    <div class="st">Projects</div>
+
+    <!-- 1 FedMed -->
+    <div class="proj">
+        <div class="ph">
+            <div class="pl">
+                <span class="pn">FedMed — Federated Multi-Modal Medical AI</span>
+                <span class="badge b-rsch">RESEARCH</span><span class="badge b-prog">IN PROGRESS</span>
+            </div>
+            <div class="pr">2025 – Present</div>
+        </div>
+        <p class="pd">Privacy-preserving federated learning system diagnosing 10 diseases (Sepsis, Heart Failure, Pneumonia, Diabetes, COPD &amp; more) across 2 hospitals using MIMIC-IV data—without sharing raw patient records. Custom <em>DW-FedAvg</em> algorithm gives each hospital weighted influence on disease classifiers proportional to its positive-sample counts. 5-channel multi-modal architecture fuses 17 universal labs, 8 specialist labs, chest X-rays (ResNet-50), and clinical notes (BioClinicalBERT). Achieves 0.89 AUROC; externally validated on eICU dataset.</p>
+        <p class="pt"><strong>Tech:</strong> Python, PyTorch, MIMIC-IV (BigQuery), DW-FedAvg, BioClinicalBERT, ResNet-50, CUDA, NumPy, Pandas</p>
+    </div>
+
+    <!-- 2 Watson-News -->
+    <div class="proj">
+        <div class="ph">
+            <div class="pl">
+                <span class="pn">Watson-News — Candy E-commerce Platform (UK Client)</span>
+                <span class="badge b-cli">CLIENT</span><span class="badge b-prog">IN PROGRESS</span>
+            </div>
+            <div class="pr">2025 – Present</div>
+        </div>
+        <p class="pd">Full-stack e-commerce platform for a UK candy retailer. Features multilingual UI (EN/FR via i18next with auto browser-language detection), Firebase Google OAuth, custom OTP email-verification flow, product promotions engine, wishlist, full cart &amp; checkout, and a role-based admin dashboard for managing products, categories, and promotions.</p>
+        <p class="pt"><strong>Tech:</strong> React 18, Vite, Redux Toolkit, Node.js, Express.js, MySQL, Tailwind CSS, Firebase, i18next</p>
+        <p class="plink">GitHub: <a href="https://github.com/Dilukshan285/Watson-News">github.com/Dilukshan285/Watson-News</a></p>
+    </div>
+
+    <!-- 3 ShopsTime -->
+    <div class="proj">
+        <div class="ph">
+            <div class="pl">
+                <span class="pn">ShopsTime — UK Supermarket Staff Wages Portal</span>
+                <span class="badge b-live">LIVE &nbsp;shopstime.co.uk</span>
+            </div>
+            <div class="pr">2024 – Present</div>
+        </div>
+        <p class="pd">Production-deployed multi-shop payroll system for a UK supermarket client. Includes employee and shift management with auto status updates (UK timezone-aware), automated payroll calculation per employee, per-employee Excel report exports, and a full audit-logging middleware (tracking IP, user agent, old/new values) for every data-change action.</p>
+        <p class="pt"><strong>Tech:</strong> React.js, Node.js, Express.js, MySQL, Tailwind CSS, ExcelJS, Nodemailer, JWT, Audit Middleware</p>
+        <p class="plink">GitHub: <a href="https://github.com/Dilukshan285/Wages">github.com/Dilukshan285/Wages</a></p>
+    </div>
+
+    <!-- 4 Car Service -->
+    <div class="proj">
+        <div class="ph">
+            <div class="pl"><span class="pn">Car Service Management System</span></div>
+            <div class="pr">2024 · Academic</div>
+        </div>
+        <p class="pd">Full-stack vehicle service centre platform with multi-role access (Admin, Manager, Employee, Customer). Customers book appointments by car type, number plate, service type, date/time; workers are assigned and tracked via an analytics dashboard. Includes a complete product store (cart, checkout, payment, order &amp; review management), OTP email-verification flow with temporary user store, Firebase Google OAuth, session middleware, Nodemailer notifications, and Sharp/Multer image processing.</p>
+        <p class="pt"><strong>Tech:</strong> React 19, Vite, Redux, Node.js, Express.js, MongoDB, Firebase OAuth, JWT, Nodemailer, Sharp/Multer, Tailwind CSS</p>
+        <p class="plink">GitHub: <a href="https://github.com/Dilukshan285/Car-Service-Management-System">github.com/Dilukshan285/Car-Service-Management-System</a></p>
+    </div>
+
+    <!-- 5 ElectroWave -->
+    <div class="proj">
+        <div class="ph">
+            <div class="pl"><span class="pn">ElectroWave — Electronics E-commerce Platform</span></div>
+            <div class="pr">2024 · Academic</div>
+        </div>
+        <p class="pd">MERN electronics store with JWT auth, admin product/order management, cart and checkout. Demonstrates production DevOps: GitHub Actions pipeline runs ESLint, Jest unit tests, and Cypress E2E tests on every push to main/develop, with automated Vercel deployment across development/production environments.</p>
+        <p class="pt"><strong>Tech:</strong> React.js, Node.js, Express.js, MongoDB, JWT, Tailwind CSS, Jest, Cypress, GitHub Actions, Vercel</p>
+        <p class="plink">GitHub: <a href="https://github.com/Dilukshan285/Electro">github.com/Dilukshan285/Electro</a></p>
+    </div>
+
+    <!-- 6 UniScraper -->
+    <div class="proj">
+        <div class="ph">
+            <div class="pl"><span class="pn">UniScraper — AI University Course Recommendation Engine</span></div>
+            <div class="pr">2024 · Academic</div>
+        </div>
+        <p class="pd">Intelligent course recommendation system for 11 Sri Lankan universities. Custom per-university HTML extractors (APIIT, NSBM, IIT, SLIIT, ICBT &amp; more), SBERT semantic search (cosine similarity on course embeddings), and an sklearn eligibility predictor. FastAPI backend with MongoDB Atlas stores scraped course data.</p>
+        <p class="pt"><strong>Tech:</strong> Python, FastAPI, Sentence Transformers (SBERT), scikit-learn, BeautifulSoup, MongoDB Atlas, Pandas</p>
+    </div>
+
+    <!-- 7 Haritha Hub -->
+    <div class="proj">
+        <div class="ph">
+            <div class="pl"><span class="pn">Haritha Hub — Plant E-commerce Platform</span></div>
+            <div class="pr">2024 · Academic</div>
+        </div>
+        <p class="pd">Full-stack plant marketplace with Redux Toolkit state management, role-based JWT authentication, Multer/Sharp image processing pipeline, video tutorial section, and animated UI with Framer Motion. Admin and user dashboards with product CRUD and user profile management.</p>
+        <p class="pt"><strong>Tech:</strong> React 19, Redux Toolkit, Node.js, Express.js, MongoDB, Sharp, Multer, Framer Motion, Tailwind CSS</p>
+        <p class="plink">GitHub: <a href="https://github.com/Dilukshan285/Haritha_Hub">github.com/Dilukshan285/Haritha_Hub</a></p>
+    </div>
+
+
+</div>
+
+<!-- SOFT SKILLS + LANGUAGES -->
+<div class="tcol">
+    <div class="c">
+        <div class="sec">
+            <div class="st">Soft Skills</div>
+            <p class="tl">Problem Solving &nbsp;&bull;&nbsp; Team Collaboration &nbsp;&bull;&nbsp; Adaptability &nbsp;&bull;&nbsp; Time Management &nbsp;&bull;&nbsp; Attention to Detail &nbsp;&bull;&nbsp; Critical Thinking &nbsp;&bull;&nbsp; Communication</p>
+        </div>
+    </div>
+    <div class="c">
+        <div class="sec">
+            <div class="st">Languages</div>
+            <table class="sk">
+                <tr><td>Tamil</td><td>Native</td></tr>
+                <tr><td>English</td><td>Professional Proficiency</td></tr>
+                <tr><td>Sinhala</td><td>Professional Proficiency</td></tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- REFERENCES -->
+<div class="sec">
+    <div class="st">References</div>
+    <div class="rcard">
+        <div class="rn">Thivakhar (Thiv) S.</div>
+        <div class="rp">Senior IT Delivery Lead — Infrastructure &amp; Digital Transformation | AWS Cloud Strategy &amp; Platform Modernisation | AI-Driven Delivery Optimisation</div>
+        <div class="rc">LinkedIn: <a href="https://www.linkedin.com/in/thivakhar-selvaraj/">linkedin.com/in/thivakhar-selvaraj</a> &nbsp;&bull;&nbsp; Location: Australia &nbsp;&bull;&nbsp; Relationship: Mentor</div>
+    </div>
+</div>
+
+</div><!-- /page -->
+</body>
+</html>

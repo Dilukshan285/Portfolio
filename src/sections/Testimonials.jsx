@@ -1,152 +1,192 @@
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
-import { useState } from "react";
+import {
+  Code2,
+  Server,
+  Database,
+  BrainCircuit,
+  Eye,
+  Wrench,
+  Globe,
+} from "lucide-react";
+import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
+import { motion } from "framer-motion";
 
-const testimonials = [
+const skillCategories = [
   {
-    quote:
-      "Pedro is one of the most talented engineers I've worked with. His attention to detail and ability to translate complex requirements into elegant solutions is remarkable.",
-    author: "Sarah Chen",
-    role: "CTO, Tech Innovators Inc.",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
+    icon: Code2,
+    title: "Languages",
+    skills: ["Python", "JavaScript", "Java", "PHP", "HTML5", "CSS3", "SQL"],
+    gradient: "from-primary to-accent-blue",
   },
   {
-    quote:
-      "Working with Pedro was a game-changer for our project. He delivered ahead of schedule with code quality that set a new standard for our team.",
-    author: "Michael Rodriguez",
-    role: "Product Manager, Digital Solutions",
-    avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop",
+    icon: Globe,
+    title: "Frontend",
+    skills: [
+      "React.js (v18/v19)",
+      "Redux Toolkit",
+      "Next.js",
+      "Tailwind CSS",
+      "Vite",
+      "Framer Motion",
+      "i18next",
+    ],
+    gradient: "from-accent-blue to-accent",
   },
   {
-    quote:
-      "Pedro's expertise in React and TypeScript helped us rebuild our entire frontend in record time. His architectural decisions continue to pay dividends.",
-    author: "Emily Watson",
-    role: "Engineering Lead, StartUp Labs",
-    avatar:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+    icon: Server,
+    title: "Backend",
+    skills: ["Node.js", "Express.js", "Spring Boot", "Flask", "FastAPI"],
+    gradient: "from-accent to-accent-pink",
   },
   {
-    quote:
-      "Not only is Pedro technically brilliant, but he's also a fantastic communicator and team player. He elevated everyone around him.",
-    author: "David Kim",
-    role: "CEO, Innovation Hub",
-    avatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+    icon: Database,
+    title: "Databases",
+    skills: ["MongoDB", "MongoDB Atlas", "MySQL", "Mongoose"],
+    gradient: "from-accent-pink to-highlight",
+  },
+  {
+    icon: BrainCircuit,
+    title: "AI / ML",
+    skills: [
+      "PyTorch",
+      "scikit-learn",
+      "Federated Learning (DW-FedAvg)",
+      "NLP",
+      "XAI (Grad-CAM, LIME, SHAP)",
+    ],
+    gradient: "from-highlight to-primary",
+  },
+  {
+    icon: Eye,
+    title: "Vision & Data",
+    skills: [
+      "YOLOv8",
+      "YOLO11",
+      "Sentence Transformers (SBERT)",
+      "Pandas",
+      "NumPy",
+      "BeautifulSoup",
+    ],
+    gradient: "from-primary to-accent",
+  },
+  {
+    icon: Wrench,
+    title: "Tools & DevOps",
+    skills: [
+      "Git",
+      "GitHub Actions (CI/CD)",
+      "Jest",
+      "Cypress E2E",
+      "Firebase",
+      "Postman",
+      "AWS",
+      "CUDA",
+      "ExcelJS",
+    ],
+    gradient: "from-accent to-accent-blue",
   },
 ];
 
+const methodologies = [
+  "RESTful APIs",
+  "MVC",
+  "OOP",
+  "Agile/Scrum",
+  "SDLC",
+  "JWT Auth",
+  "Audit Logging",
+];
+
 export const Testimonials = () => {
-  const [activeIdx, setActiveIdx] = useState(0);
-
-  const next = () => {
-    setActiveIdx((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const previous = () => {
-    setActiveIdx(
-      (prev) => (prev - 1 + testimonials.length) % testimonials.length
-    );
-  };
   return (
-    <section id="testimonials" className="py-32 relative overflow-hidden">
-      <div
-        className="absolute top-1/2 left-1/2
-       w-[800px] h-[800px] bg-primary/5
-        rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"
-      />
-      <div
-        className="container mx-auto 
-      px-6 relative z-10"
-      >
+    <section id="skills" className="py-32 relative overflow-hidden">
+      {/* Bg */}
+      <div className="absolute inset-0 mesh-gradient opacity-40" />
+
+      <div className="container mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div
-          className="text-center max-w-3xl 
-        mx-auto mb-16"
-        >
-          <span
-            className="text-secondary-foreground 
-          text-sm font-medium tracking-wider 
-          uppercase animate-fade-in"
-          >
-            What People Say
-          </span>
-          <h2
-            className="text-4xl md:text-5xl 
-          font-bold mt-4 mb-6 animate-fade-in 
-          animation-delay-100 text-secondary-foreground"
-          >
-            Kind words from{" "}
-            <span
-              className="font-serif italic 
-            font-normal text-white"
-            >
-              amazing people.
+        <div className="text-center max-w-3xl mx-auto mb-20">
+          <Reveal>
+            <span className="inline-flex items-center gap-2 text-sm font-mono uppercase tracking-[0.2em] text-primary mb-4">
+              <span className="w-8 h-px bg-primary" />
+              Technical Expertise
+              <span className="w-8 h-px bg-primary" />
             </span>
-          </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6">
+              Skills that{" "}
+              <span className="font-serif italic font-normal text-gradient-warm">
+                drive results.
+              </span>
+            </h2>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-muted-foreground leading-relaxed">
+              A comprehensive toolkit spanning full-stack development, AI/ML
+              research, computer vision, and modern DevOps practices.
+            </p>
+          </Reveal>
         </div>
 
-        {/* Testimonial Carousel */}
-        <div className="max-w-4xl mx-auto">
-          <div className="relative">
-            {/* Main Testimonial */}
-            <div className="glass p-8 rounded-3xl md:p-12 glow-border animate-fade-in animation-delay-200">
-              <div className="absolute -top-4 left-8 w-12 h-12 rounded-full bg-primary flex items-center justify-center">
-                <Quote className="w-6 h-6 text-primary-foreground" />
-              </div>
-
-              <blockquote className="text-xl md:text-2xl font-medium leading-relaxed mb-8 pt-4">
-                "{testimonials[activeIdx].quote}"
-              </blockquote>
-
-              <div className="flex items-center gap-4">
-                <img
-                  src={testimonials[activeIdx].avatar}
-                  alt={testimonials[activeIdx].author}
-                  className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20"
+        {/* Skills Grid */}
+        <StaggerContainer
+          className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-6xl mx-auto"
+          staggerDelay={0.08}
+        >
+          {skillCategories.map((category, idx) => (
+            <StaggerItem key={idx}>
+              <motion.div
+                className="glass p-6 rounded-2xl card-hover shine border border-transparent hover:border-primary/20 group relative overflow-hidden"
+                whileHover={{ scale: 1.03 }}
+                transition={{ duration: 0.3 }}
+              >
+                {/* Top accent line */}
+                <div
+                  className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${category.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
                 />
-                <div>
-                  <div className="font-semibold">
-                    {testimonials[activeIdx].author}
+
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-500">
+                    <category.icon className="w-5 h-5 text-primary" />
                   </div>
-                  <div className="text-sm text-muted-foreground">
-                    {testimonials[activeIdx].role}
-                  </div>
+                  <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">
+                    {category.title}
+                  </h3>
                 </div>
-              </div>
-            </div>
+                <div className="flex flex-wrap gap-2">
+                  {category.skills.map((skill, skillIdx) => (
+                    <span
+                      key={skillIdx}
+                      className="px-3 py-1.5 rounded-full bg-surface text-xs font-mono border border-border/50 text-muted-foreground hover:border-primary/50 hover:text-primary transition-all duration-300 cursor-default"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
 
-            {/* Testimonials Navigation */}
-            <div className="flex items-center justify-center gap-4 mt-8">
-              <button
-                className="p-3 rounded-full glass hover:bg-primary/10 hover:text-primary transition-all"
-                onClick={previous}
-              >
-                <ChevronLeft />
-              </button>
-
-              <div className="flex gap-2">
-                {testimonials.map((_, idx) => (
-                  <button
-                    onClick={() => setActiveIdx(idx)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      idx === activeIdx
-                        ? "w-8 bg-primary"
-                        : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                    }`}
-                  />
-                ))}
-              </div>
-
-              <button
-                onClick={next}
-                className="p-3 rounded-full glass hover:bg-primary/10 hover:text-primary transition-all"
-              >
-                <ChevronRight />
-              </button>
+        {/* Methodologies */}
+        <Reveal delay={0.3}>
+          <div className="mt-16 text-center">
+            <p className="text-sm text-muted-foreground mb-5 font-mono uppercase tracking-widest">
+              Methodologies & Practices
+            </p>
+            <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
+              {methodologies.map((method, idx) => (
+                <motion.span
+                  key={idx}
+                  className="px-4 py-2 rounded-full glass text-sm font-medium text-muted-foreground hover:text-primary hover:border-primary/30 transition-all duration-300 cursor-default"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                >
+                  {method}
+                </motion.span>
+              ))}
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
