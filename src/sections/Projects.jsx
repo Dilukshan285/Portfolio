@@ -44,7 +44,7 @@ const projects = [
     title: "ShopsTime — UK Supermarket Payroll Portal",
     description:
       "Production-deployed multi-shop payroll system for a UK supermarket client. Employee/shift management with UK timezone-aware auto status updates, automated payroll calculation, per-employee Excel exports, and full audit-logging middleware.",
-    images: [`${base}projects/project3.png`],
+    images: [`${base}projects/Wages1.png`, `${base}projects/Wages2.png`, `${base}projects/Wages3.png`],
     tags: ["React.js", "Node.js", "MySQL", "ExcelJS", "JWT", "Audit Middleware"],
     link: "https://shopstime.co.uk",
     github: "https://github.com/Dilukshan285/Wages",
@@ -221,8 +221,8 @@ const ImageGalleryModal = ({ project, isOpen, onClose }) => {
                   key={idx}
                   onClick={() => setCurrentIndex(idx)}
                   className={`transition-all duration-300 rounded-lg overflow-hidden border-2 ${idx === currentIndex
-                      ? "border-primary shadow-[0_0_12px_rgba(0,212,170,0.4)]"
-                      : "border-border/30 opacity-50 hover:opacity-80"
+                    ? "border-primary shadow-[0_0_12px_rgba(0,212,170,0.4)]"
+                    : "border-border/30 opacity-50 hover:opacity-80"
                     }`}
                 >
                   <img
