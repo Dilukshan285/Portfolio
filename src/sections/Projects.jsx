@@ -141,7 +141,6 @@ const ImageGalleryModal = ({ project, isOpen, onClose }) => {
     setCurrentIndex((prev) => (prev - 1 + project.images.length) % project.images.length);
   }, [project]);
 
-  // Keyboard navigation
   useEffect(() => {
     if (!isOpen) return;
     const handleKey = (e) => {
@@ -153,7 +152,6 @@ const ImageGalleryModal = ({ project, isOpen, onClose }) => {
     return () => window.removeEventListener("keydown", handleKey);
   }, [isOpen, onClose, goNext, goPrev]);
 
-  // Reset index when modal opens
   useEffect(() => {
     if (isOpen) setCurrentIndex(0);
   }, [isOpen]);
@@ -162,33 +160,29 @@ const ImageGalleryModal = ({ project, isOpen, onClose }) => {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex items-center justify-center"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Backdrop */}
       <div
         className="absolute inset-0 bg-background/90 backdrop-blur-xl"
         onClick={onClose}
       />
 
-      {/* Modal Content */}
-      <div className="relative z-10 w-full max-w-5xl mx-4">
-        {/* Close button */}
+      <div className="relative z-10 w-full max-w-5xl">
         <motion.button
-          className="absolute -top-12 right-0 p-2 rounded-full glass text-foreground hover:text-primary hover:bg-primary/10 transition-all z-20"
+          className="absolute -top-12 right-0 p-2 rounded-full glass-divine text-foreground hover:text-primary hover:bg-primary/10 transition-all z-20"
           onClick={onClose}
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.1, rotate: 90 }}
           whileTap={{ scale: 0.9 }}
         >
           <X className="w-6 h-6" />
         </motion.button>
 
-        {/* Project Title */}
         <motion.h3
-          className="text-xl font-bold mb-4 text-gradient"
+          className="text-lg sm:text-xl font-bold mb-4 text-gradient"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.1 }}
@@ -196,9 +190,8 @@ const ImageGalleryModal = ({ project, isOpen, onClose }) => {
           {project.title}
         </motion.h3>
 
-        {/* Image Container */}
         <motion.div
-          className="relative glass rounded-2xl overflow-hidden border border-primary/15"
+          className="relative glass-divine rounded-2xl overflow-hidden border border-primary/15"
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
@@ -216,11 +209,10 @@ const ImageGalleryModal = ({ project, isOpen, onClose }) => {
             />
           </AnimatePresence>
 
-          {/* Navigation Arrows (only show if multiple images) */}
           {project.images.length > 1 && (
             <>
               <motion.button
-                className="absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full glass border border-border/40 text-foreground hover:text-primary hover:border-primary/30 transition-all"
+                className="absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full glass-divine border border-border/40 text-foreground hover:text-primary hover:border-primary/30 transition-all"
                 onClick={(e) => { e.stopPropagation(); goPrev(); }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -228,7 +220,7 @@ const ImageGalleryModal = ({ project, isOpen, onClose }) => {
                 <ChevronLeft className="w-5 h-5" />
               </motion.button>
               <motion.button
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full glass border border-border/40 text-foreground hover:text-primary hover:border-primary/30 transition-all"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full glass-divine border border-border/40 text-foreground hover:text-primary hover:border-primary/30 transition-all"
                 onClick={(e) => { e.stopPropagation(); goNext(); }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -239,24 +231,22 @@ const ImageGalleryModal = ({ project, isOpen, onClose }) => {
           )}
         </motion.div>
 
-        {/* Thumbnails + Counter */}
         {project.images.length > 1 && (
-          <div className="mt-4 flex items-center justify-center gap-4">
-            {/* Thumbnail dots */}
-            <div className="flex items-center gap-2">
+          <div className="mt-4 flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               {project.images.map((img, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentIndex(idx)}
                   className={`transition-all duration-300 rounded-lg overflow-hidden border-2 ${idx === currentIndex
-                    ? "border-primary shadow-[0_0_12px_rgba(0,212,170,0.4)]"
+                    ? "border-primary shadow-[0_0_12px_rgba(0,245,212,0.4)]"
                     : "border-border/30 opacity-50 hover:opacity-80"
                     }`}
                 >
                   <img
                     src={img}
                     alt={`Thumbnail ${idx + 1}`}
-                    className="w-16 h-10 object-cover"
+                    className="w-12 h-8 sm:w-16 sm:h-10 object-cover"
                   />
                 </button>
               ))}
@@ -275,22 +265,21 @@ export const Projects = () => {
   const [galleryProject, setGalleryProject] = useState(null);
 
   return (
-    <section id="projects" className="py-32 relative overflow-hidden">
-      {/* Bg */}
-      <div className="absolute inset-0 mesh-gradient opacity-30" />
+    <section id="projects" className="py-20 sm:py-32 relative overflow-hidden">
+      <div className="absolute inset-0 cosmic-mesh opacity-30" />
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mx-auto max-w-3xl mb-20">
+        <div className="text-center mx-auto max-w-3xl mb-14 sm:mb-20">
           <Reveal>
             <span className="inline-flex items-center gap-2 text-sm font-mono uppercase tracking-[0.2em] text-primary mb-4">
-              <span className="w-8 h-px bg-primary" />
+              <span className="w-8 h-px bg-gradient-to-r from-transparent to-primary" />
               Featured Work
-              <span className="w-8 h-px bg-primary" />
+              <span className="w-8 h-px bg-gradient-to-l from-transparent to-primary" />
             </span>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-4 mb-6">
               Projects that
               <span className="font-serif italic font-normal text-gradient-warm">
                 {" "}
@@ -299,7 +288,7 @@ export const Projects = () => {
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed text-sm sm:text-base">
               From live production systems for UK clients to AI research and
               full-stack academic projects across diverse tech stacks.
             </p>
@@ -308,26 +297,21 @@ export const Projects = () => {
 
         {/* Projects Grid */}
         <StaggerContainer
-          className="grid md:grid-cols-2 gap-8"
+          className="grid md:grid-cols-2 gap-6 sm:gap-8"
           staggerDelay={0.1}
         >
           {projects.map((project, idx) => (
             <StaggerItem key={idx}>
               <TiltCard tiltAmount={6} className="h-full">
                 <motion.div
-                  className={`group glass rounded-2xl overflow-hidden shine border border-transparent hover:border-primary/20 relative h-full ${project.featured ? "md:row-span-1" : ""
+                  className={`group glass-divine rounded-2xl overflow-hidden shine border border-transparent hover:border-primary/20 relative h-full ${project.featured ? "md:row-span-1" : ""
                     }`}
+                  whileHover={{
+                    boxShadow: "0 20px 60px -15px rgba(0, 245, 212, 0.15)",
+                  }}
+                  transition={{ duration: 0.4 }}
                 >
-                  {/* Rotating border glow on hover */}
-                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                    style={{
-                      background: `conic-gradient(from 0deg at 50% 50%, transparent 0deg, var(--color-primary) 60deg, transparent 120deg)`,
-                      filter: "blur(20px)",
-                      transform: "scale(1.05)",
-                    }}
-                  />
-
-                  {/* Image — clickable to open gallery */}
+                  {/* Image */}
                   <div
                     className="relative overflow-hidden aspect-video cursor-pointer"
                     onClick={() => setGalleryProject(project)}
@@ -362,11 +346,10 @@ export const Projects = () => {
                       </div>
                     )}
 
-                    {/* Hover overlay with action buttons */}
-                    <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-background/20 backdrop-blur-sm">
-                      {/* View Gallery Button */}
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-background/30 backdrop-blur-sm">
                       <motion.button
-                        className="p-3 rounded-full glass hover:bg-primary hover:text-primary-foreground transition-all border border-primary/30"
+                        className="p-3 rounded-full glass-divine hover:bg-primary hover:text-primary-foreground transition-all border border-primary/30"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={(e) => {
@@ -381,7 +364,7 @@ export const Projects = () => {
                           href={project.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-3 rounded-full glass hover:bg-primary hover:text-primary-foreground transition-all border border-primary/30"
+                          className="p-3 rounded-full glass-divine hover:bg-primary hover:text-primary-foreground transition-all border border-primary/30"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={(e) => e.stopPropagation()}
@@ -394,7 +377,7 @@ export const Projects = () => {
                           href={project.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-3 rounded-full glass hover:bg-primary hover:text-primary-foreground transition-all border border-primary/30"
+                          className="p-3 rounded-full glass-divine hover:bg-primary hover:text-primary-foreground transition-all border border-primary/30"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={(e) => e.stopPropagation()}
@@ -406,25 +389,26 @@ export const Projects = () => {
                   </div>
 
                   {/* Content */}
-                  <div className="p-6 space-y-4 relative z-10">
+                  <div className="p-5 sm:p-6 space-y-3 sm:space-y-4 relative z-10">
                     <div className="flex items-start justify-between gap-2">
-                      <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
+                      <h3 className="text-lg sm:text-xl font-semibold group-hover:text-primary transition-colors">
                         {project.title}
                       </h3>
                       <ArrowUpRight className="w-5 h-5 flex-shrink-0 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
                     </div>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
+                    <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
                       {project.description}
                     </p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
                       {project.tags.map((tag, tagIdx) => (
                         <motion.span
                           key={tagIdx}
-                          className="px-3 py-1.5 rounded-full bg-surface text-xs font-medium font-mono border border-border/50 text-muted-foreground hover:border-primary/50 hover:text-primary transition-all duration-300"
+                          className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-surface text-xs font-medium font-mono border border-border/50 text-muted-foreground hover:border-primary/50 hover:text-primary transition-all duration-300"
                           initial={{ opacity: 0, scale: 0.8 }}
                           whileInView={{ opacity: 1, scale: 1 }}
                           transition={{ delay: tagIdx * 0.05 }}
                           viewport={{ once: true }}
+                          whileHover={{ scale: 1.05, y: -2 }}
                         >
                           {tag}
                         </motion.span>
@@ -439,7 +423,7 @@ export const Projects = () => {
 
         {/* View All CTA */}
         <Reveal delay={0.3}>
-          <div className="text-center mt-16">
+          <div className="text-center mt-12 sm:mt-16">
             <a
               href="https://github.com/Dilukshan285"
               target="_blank"

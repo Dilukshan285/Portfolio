@@ -14,7 +14,7 @@ const socialLinks = [
     icon: Mail,
     href: "mailto:dilukshanviyapury25@gmail.com",
     label: "Email",
-    hoverColor: "#00d4aa",
+    hoverColor: "#00f5d4",
   },
 ];
 
@@ -43,7 +43,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="relative py-12 border-t border-border/30">
+    <footer className="relative py-10 sm:py-12 border-t border-border/30">
       {/* Animated wave top border */}
       <div className="absolute -top-px left-0 right-0 h-px overflow-hidden">
         <motion.div
@@ -56,16 +56,16 @@ export const Footer = () => {
         />
       </div>
 
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
           {/* Logo & Copyright */}
           <div className="text-center md:text-left">
             <a
               href="#"
-              className="text-xl font-bold tracking-tight inline-block"
+              className="text-xl font-bold tracking-tight inline-block font-display"
             >
-              <span className="text-gradient">DV</span>
-              <span className="text-primary">.</span>
+              <span className="text-gradient neon-text">DV</span>
+              <span className="text-accent">.</span>
             </a>
             <p className="text-sm text-muted-foreground mt-2 font-mono">
               © {currentYear} Dilukshan Viyapury
@@ -73,7 +73,7 @@ export const Footer = () => {
           </div>
 
           {/* Links */}
-          <nav className="flex flex-wrap justify-center gap-6">
+          <nav className="flex flex-wrap justify-center gap-4 sm:gap-6">
             {footerLinks.map((link) => (
               <motion.a
                 key={link.href}
@@ -86,8 +86,8 @@ export const Footer = () => {
             ))}
           </nav>
 
-          {/* Social Links — with colored glow */}
-          <div className="flex items-center gap-3">
+          {/* Social Links */}
+          <div className="flex items-center gap-2 sm:gap-3">
             {socialLinks.map((social) => (
               <motion.a
                 key={social.label}
@@ -95,7 +95,7 @@ export const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                className="p-2.5 rounded-xl glass hover:border-primary/30 transition-all duration-300"
+                className="p-2.5 rounded-xl glass-divine hover:border-primary/30 transition-all duration-300"
                 whileHover={{
                   scale: 1.15,
                   y: -3,
@@ -110,11 +110,11 @@ export const Footer = () => {
         </div>
 
         {/* Bottom text */}
-        <div className="mt-8 pt-6 border-t border-border/20 text-center">
+        <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-border/20 text-center">
           <p className="text-xs text-muted-foreground/50 flex items-center justify-center gap-1">
             Crafted with{" "}
             <motion.span
-              animate={{ scale: [1, 1.2, 1] }}
+              animate={{ scale: [1, 1.3, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
               <Heart className="w-3 h-3 text-accent-pink" />
@@ -126,7 +126,7 @@ export const Footer = () => {
 
       {/* Scroll to top button */}
       <motion.button
-        className="fixed bottom-8 right-8 p-3 rounded-full glass border border-primary/20 text-primary z-40 hover:bg-primary/10 transition-colors"
+        className="fixed bottom-6 sm:bottom-8 right-6 sm:right-8 p-3 rounded-full glass-divine border border-primary/20 text-primary z-40 hover:bg-primary/10 transition-colors"
         onClick={scrollToTop}
         initial={{ opacity: 0, y: 20 }}
         animate={{
@@ -134,7 +134,11 @@ export const Footer = () => {
           y: showScrollTop ? 0 : 20,
           pointerEvents: showScrollTop ? "auto" : "none",
         }}
-        whileHover={{ scale: 1.1, y: -2 }}
+        whileHover={{
+          scale: 1.1,
+          y: -2,
+          boxShadow: "0 0 20px rgba(0, 245, 212, 0.3)",
+        }}
         whileTap={{ scale: 0.9 }}
       >
         <ArrowUp className="w-5 h-5" />

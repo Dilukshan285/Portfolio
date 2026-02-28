@@ -17,21 +17,15 @@ export const Navbar = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const controls = useAnimation();
 
-  // Entry animation — fire once
   useEffect(() => {
     controls.start({ y: 0, transition: { duration: 0.6, ease: "easeOut" } });
   }, [controls]);
 
-  // Scroll detection + progress + active section
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-
-      // Scroll progress
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       setScrollProgress(totalHeight > 0 ? window.scrollY / totalHeight : 0);
-
-      // Active section detection
       const sections = navLinks.map((link) => link.href.replace("#", ""));
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
@@ -52,7 +46,7 @@ export const Navbar = () => {
 
   return (
     <motion.header
-      className={`fixed top-0 left-0 right-0 transition-all duration-500 z-50 ${isScrolled ? "glass-strong py-3" : "bg-transparent py-5"
+      className={`fixed top-0 left-0 right-0 transition-all duration-500 z-50 ${isScrolled ? "glass-strong py-2.5 sm:py-3" : "bg-transparent py-4 sm:py-5"
         }`}
       initial={{ y: -100 }}
       animate={controls}
@@ -66,27 +60,21 @@ export const Navbar = () => {
         }}
       />
 
-      <nav className="container mx-auto px-6 flex items-center justify-between">
+      <nav className="container mx-auto px-4 sm:px-6 flex items-center justify-between">
+        {/* Holographic Logo */}
         <motion.a
           href="#"
-          className="text-xl font-bold tracking-tight hover:text-primary transition-colors inline-block"
+          className="text-xl font-bold tracking-tight hover:text-primary transition-colors inline-block font-display"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <span
-            style={{
-              background: "linear-gradient(135deg, var(--color-primary), var(--color-accent-blue))",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >DV</span>
-          <span className="text-primary">.</span>
+          <span className="text-gradient neon-text">DV</span>
+          <span className="text-accent">.</span>
         </motion.a>
 
-        {/* Desktop Nav */}
+        {/* Desktop Nav — Glass pill */}
         <div className="hidden md:flex items-center gap-1">
-          <div className="glass rounded-full px-2 py-1.5 flex items-center gap-0.5">
+          <div className="glass-divine rounded-full px-2 py-1.5 flex items-center gap-0.5">
             {navLinks.map((link, index) => {
               const isActive = activeSection === link.href.replace("#", "");
               return (
@@ -104,6 +92,9 @@ export const Navbar = () => {
                       className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary"
                       layoutId="activeNavDot"
                       transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                      style={{
+                        boxShadow: "0 0 8px var(--color-primary)",
+                      }}
                     />
                   )}
                 </a>
@@ -123,11 +114,33 @@ export const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <motion.button
-          className="md:hidden p-2 text-foreground"
+          className="md:hidden p-2 text-foreground relative"
           onClick={() => setIsMobileMenuOpen((prev) => !prev)}
           whileTap={{ scale: 0.9 }}
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          <AnimatePresence mode="wait">
+            {isMobileMenuOpen ? (
+              <motion.div
+                key="close"
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <X size={24} />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="menu"
+                initial={{ rotate: 90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: -90, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Menu size={24} />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.button>
       </nav>
 
@@ -141,21 +154,21 @@ export const Navbar = () => {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="container mx-auto px-6 py-6 flex flex-col gap-4">
+            <div className="container mx-auto px-6 py-6 flex flex-col gap-3">
               {navLinks.map((link, index) => (
                 <motion.a
                   href={link.href}
                   key={index}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-lg text-muted-foreground hover:text-foreground py-2 transition-colors"
+                  className="text-lg text-muted-foreground hover:text-primary py-3 px-4 rounded-xl hover:bg-primary/5 transition-all duration-300"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: index * 0.08 }}
                 >
                   {link.label}
                 </motion.a>
               ))}
-              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>
+              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="mt-2">
                 <Button className="w-full">Contact Me</Button>
               </a>
             </div>

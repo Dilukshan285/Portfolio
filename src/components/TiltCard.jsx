@@ -39,7 +39,7 @@ export const TiltCard = ({
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={handleMouseLeave}
             style={{
-                perspective: "1000px",
+                perspective: "800px",
             }}
             {...props}
         >
@@ -56,15 +56,37 @@ export const TiltCard = ({
             >
                 {children}
 
-                {/* Glare overlay */}
+                {/* Holographic rainbow glare */}
                 {glareEnabled && (
                     <div
                         className="absolute inset-0 rounded-[inherit] pointer-events-none"
                         style={{
-                            background: `radial-gradient(circle at ${tilt.glareX}% ${tilt.glareY}%, rgba(255,255,255,0.06) 0%, transparent 60%)`,
+                            background: isHovered
+                                ? `radial-gradient(circle at ${tilt.glareX}% ${tilt.glareY}%, 
+                                    rgba(0, 245, 212, 0.06) 0%, 
+                                    rgba(123, 47, 247, 0.04) 25%, 
+                                    rgba(255, 45, 135, 0.03) 50%, 
+                                    transparent 70%)`
+                                : "none",
                             opacity: isHovered ? 1 : 0,
                             transition: "opacity 0.3s",
                             zIndex: 2,
+                        }}
+                    />
+                )}
+
+                {/* Edge glow on hover */}
+                {glareEnabled && (
+                    <div
+                        className="absolute inset-0 rounded-[inherit] pointer-events-none"
+                        style={{
+                            boxShadow: isHovered
+                                ? `inset 0 0 30px rgba(0, 245, 212, 0.05), 
+                                   0 0 20px rgba(0, 245, 212, 0.08)`
+                                : "none",
+                            opacity: isHovered ? 1 : 0,
+                            transition: "opacity 0.4s, box-shadow 0.4s",
+                            zIndex: 1,
                         }}
                     />
                 )}

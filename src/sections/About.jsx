@@ -13,6 +13,7 @@ const highlights = [
       "Production-grade MERN applications shipped for international UK clients with CI/CD pipelines.",
     color: "primary",
     gradient: "from-primary to-accent-blue",
+    glowColor: "rgba(0, 245, 212, 0.15)",
   },
   {
     icon: BrainCircuit,
@@ -21,6 +22,7 @@ const highlights = [
       "Federated learning, computer vision (YOLO), NLP, and explainable AI research on medical datasets.",
     color: "accent",
     gradient: "from-accent to-accent-pink",
+    glowColor: "rgba(123, 47, 247, 0.15)",
   },
   {
     icon: Rocket,
@@ -29,6 +31,7 @@ const highlights = [
       "Live payroll portals, e-commerce platforms, and automated DevOps workflows deployed at scale.",
     color: "accent-blue",
     gradient: "from-accent-blue to-primary",
+    glowColor: "rgba(0, 180, 216, 0.15)",
   },
   {
     icon: Users,
@@ -37,6 +40,7 @@ const highlights = [
       "Cross-functional teamwork with UK-based stakeholders, Agile sprints, and clear communication.",
     color: "accent-pink",
     gradient: "from-accent-pink to-highlight",
+    glowColor: "rgba(255, 45, 135, 0.15)",
   },
 ];
 
@@ -73,7 +77,7 @@ const AnimatedCounter = ({ value, suffix = "", label }) => {
   return (
     <div ref={ref} className="text-center">
       <motion.div
-        className="text-2xl md:text-3xl font-bold text-gradient"
+        className="text-xl sm:text-2xl md:text-3xl font-bold text-gradient font-display"
         initial={{ scale: 0.5, opacity: 0 }}
         animate={inView ? { scale: 1, opacity: 1 } : {}}
         transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
@@ -89,23 +93,23 @@ const AnimatedCounter = ({ value, suffix = "", label }) => {
 
 export const About = () => {
   return (
-    <section id="about" className="py-32 relative overflow-hidden">
+    <section id="about" className="py-20 sm:py-32 relative overflow-hidden">
       {/* Bg mesh */}
-      <div className="absolute inset-0 mesh-gradient opacity-50" />
+      <div className="absolute inset-0 cosmic-mesh opacity-50" />
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Left Column */}
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             <Reveal>
               <span className="inline-flex items-center gap-2 text-sm font-mono uppercase tracking-[0.2em] text-primary">
-                <span className="w-8 h-px bg-primary" />
+                <span className="w-8 h-px bg-gradient-to-r from-primary to-accent" />
                 About Me
               </span>
             </Reveal>
 
             <Reveal delay={0.1}>
-              <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
                 Engineering the future,
                 <span className="font-serif italic font-normal text-gradient-warm">
                   {" "}
@@ -115,7 +119,7 @@ export const About = () => {
             </Reveal>
 
             <Reveal delay={0.2}>
-              <div className="space-y-4 text-muted-foreground leading-relaxed">
+              <div className="space-y-4 text-muted-foreground leading-relaxed text-sm sm:text-base">
                 <p>
                   I'm a final-year BSc Information Technology undergraduate at
                   SLIIT with a passion for bridging the gap between intelligent
@@ -139,9 +143,9 @@ export const About = () => {
             </Reveal>
 
             <Reveal delay={0.3}>
-              <div className="glass rounded-2xl p-6 glow-border relative overflow-hidden shine holographic">
+              <div className="glass-divine rounded-2xl p-6 glow-border relative overflow-hidden shine holographic">
                 <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary via-accent to-accent-blue" />
-                <p className="text-lg font-medium italic text-foreground pl-4">
+                <p className="text-base sm:text-lg font-medium italic text-foreground pl-4">
                   "My mission is to build intelligent, production-grade systems
                   that solve real problems — merging AI innovation with robust
                   full-stack engineering."
@@ -151,7 +155,7 @@ export const About = () => {
 
             {/* Animated Stats Row */}
             <Reveal delay={0.4}>
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {stats.map((stat, idx) => (
                   <AnimatedCounter
                     key={idx}
@@ -165,29 +169,35 @@ export const About = () => {
           </div>
 
           {/* Right Column - 3D Tilt Highlight Cards */}
-          <StaggerContainer className="grid sm:grid-cols-2 gap-5" staggerDelay={0.12}>
+          <StaggerContainer className="grid sm:grid-cols-2 gap-4 sm:gap-5" staggerDelay={0.12}>
             {highlights.map((item, idx) => (
               <StaggerItem key={idx}>
                 <TiltCard tiltAmount={12}>
-                  <div className="glass p-6 rounded-2xl shine group border border-transparent hover:border-primary/20 relative overflow-hidden">
+                  <motion.div
+                    className="glass-divine p-5 sm:p-6 rounded-2xl shine group border border-transparent hover:border-primary/20 relative overflow-hidden h-full"
+                    whileHover={{
+                      boxShadow: `0 0 40px ${item.glowColor}, 0 0 80px ${item.glowColor}`,
+                    }}
+                    transition={{ duration: 0.4 }}
+                  >
                     {/* Top accent line */}
                     <div
                       className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${item.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
                     />
 
                     <motion.div
-                      className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-all duration-500"
+                      className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-all duration-500"
                       whileHover={{ scale: 1.15, rotate: 5 }}
                     >
-                      <item.icon className="w-6 h-6 text-primary" />
+                      <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary group-hover:drop-shadow-[0_0_8px_rgba(0,245,212,0.5)]" />
                     </motion.div>
-                    <h3 className="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
+                    <h3 className="text-base sm:text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
                       {item.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                       {item.description}
                     </p>
-                  </div>
+                  </motion.div>
                 </TiltCard>
               </StaggerItem>
             ))}

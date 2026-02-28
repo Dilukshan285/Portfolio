@@ -22,6 +22,14 @@ export const ParticleField = () => {
     };
     window.addEventListener("mousemove", handleMouseMove);
 
+    const cosmicColors = [
+      { h: 165, s: 90, l: 55 }, // cyan/teal
+      { h: 265, s: 85, l: 60 }, // violet
+      { h: 195, s: 85, l: 55 }, // blue
+      { h: 340, s: 90, l: 55 }, // pink
+      { h: 50, s: 90, l: 55 },  // gold
+    ];
+
     class Particle {
       constructor() {
         this.reset();
@@ -29,55 +37,78 @@ export const ParticleField = () => {
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.5;
-        this.baseSpeedX = (Math.random() - 0.5) * 0.3;
-        this.baseSpeedY = (Math.random() - 0.5) * 0.3;
+        this.size = Math.random() * 2.5 + 0.5;
+        this.baseSpeedX = (Math.random() - 0.5) * 0.25;
+        this.baseSpeedY = (Math.random() - 0.5) * 0.25;
         this.speedX = this.baseSpeedX;
         this.speedY = this.baseSpeedY;
         this.opacity = Math.random() * 0.5 + 0.1;
         this.baseOpacity = this.opacity;
-        this.hue = Math.random() > 0.5 ? 165 : 220;
+        this.colorIdx = Math.floor(Math.random() * cosmicColors.length);
+        this.hue = cosmicColors[this.colorIdx].h;
+        this.sat = cosmicColors[this.colorIdx].s;
+        this.lit = cosmicColors[this.colorIdx].l;
         this.pulseOffset = Math.random() * Math.PI * 2;
+        this.pulseSpeed = Math.random() * 0.002 + 0.001;
+        this.glowSize = this.size * (2 + Math.random() * 3);
       }
       update(time) {
-        // Mouse interaction — repel
+        // Mouse interaction — magnetic attraction/repulsion
         const dx = this.x - mouseRef.current.x;
         const dy = this.y - mouseRef.current.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        const maxDist = 150;
+        const maxDist = 180;
 
         if (dist < maxDist) {
           const force = (maxDist - dist) / maxDist;
           const angle = Math.atan2(dy, dx);
-          this.speedX += Math.cos(angle) * force * 0.8;
-          this.speedY += Math.sin(angle) * force * 0.8;
-          this.opacity = Math.min(0.8, this.baseOpacity + force * 0.4);
+          // Inner particles repel, outer attract slightly
+          if (dist < 80) {
+            this.speedX += Math.cos(angle) * force * 1.2;
+            this.speedY += Math.sin(angle) * force * 1.2;
+          } else {
+            this.speedX -= Math.cos(angle) * force * 0.3;
+            this.speedY -= Math.sin(angle) * force * 0.3;
+          }
+          this.opacity = Math.min(0.9, this.baseOpacity + force * 0.5);
         } else {
           this.opacity += (this.baseOpacity - this.opacity) * 0.05;
         }
 
-        // Damping — return to base speed
+        // Damping
         this.speedX += (this.baseSpeedX - this.speedX) * 0.02;
         this.speedY += (this.baseSpeedY - this.speedY) * 0.02;
 
         this.x += this.speedX;
         this.y += this.speedY;
 
-        // Color breathing
-        this.hue = 165 + Math.sin(time * 0.0005 + this.pulseOffset) * 30;
+        // Color cycling
+        this.hue = cosmicColors[this.colorIdx].h + Math.sin(time * this.pulseSpeed + this.pulseOffset) * 15;
 
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+        if (this.x < -10) this.x = canvas.width + 10;
+        if (this.x > canvas.width + 10) this.x = -10;
+        if (this.y < -10) this.y = canvas.height + 10;
+        if (this.y > canvas.height + 10) this.y = -10;
       }
       draw() {
+        // Glow
+        const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.glowSize);
+        grad.addColorStop(0, `hsla(${this.hue}, ${this.sat}%, ${this.lit}%, ${this.opacity * 0.5})`);
+        grad.addColorStop(1, `hsla(${this.hue}, ${this.sat}%, ${this.lit}%, 0)`);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.glowSize, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        // Core dot
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${this.hue}, 80%, 60%, ${this.opacity})`;
+        ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lit}%, ${this.opacity})`;
         ctx.fill();
       }
     }
 
-    const count = Math.min(60, Math.floor((canvas.width * canvas.height) / 20000));
+    const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 18000));
     for (let i = 0; i < count; i++) {
       particles.push(new Particle());
     }
@@ -88,12 +119,16 @@ export const ParticleField = () => {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 150) {
-            const opacity = 0.08 * (1 - dist / 150);
+          if (dist < 160) {
+            const opacity = 0.06 * (1 - dist / 160);
+            // Use gradient line between the two particle colors
+            const grad = ctx.createLinearGradient(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+            grad.addColorStop(0, `hsla(${particles[i].hue}, ${particles[i].sat}%, ${particles[i].lit}%, ${opacity})`);
+            grad.addColorStop(1, `hsla(${particles[j].hue}, ${particles[j].sat}%, ${particles[j].lit}%, ${opacity})`);
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `hsla(165, 80%, 50%, ${opacity})`;
+            ctx.strokeStyle = grad;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -123,7 +158,7 @@ export const ParticleField = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ opacity: 0.5 }}
+      style={{ opacity: 0.6 }}
     />
   );
 };

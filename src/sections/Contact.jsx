@@ -82,22 +82,21 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-32 relative overflow-hidden">
-      {/* Bg */}
-      <div className="absolute inset-0 mesh-gradient opacity-30" />
+    <section id="contact" className="py-20 sm:py-32 relative overflow-hidden">
+      <div className="absolute inset-0 cosmic-mesh opacity-30" />
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
+        <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
           <Reveal>
             <span className="inline-flex items-center gap-2 text-sm font-mono uppercase tracking-[0.2em] text-primary mb-4">
-              <span className="w-8 h-px bg-primary" />
+              <span className="w-8 h-px bg-gradient-to-r from-transparent to-primary" />
               Get In Touch
-              <span className="w-8 h-px bg-primary" />
+              <span className="w-8 h-px bg-gradient-to-l from-transparent to-primary" />
             </span>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-4 mb-6">
               Let's build{" "}
               <span className="font-serif italic font-normal text-gradient-warm">
                 something great.
@@ -105,26 +104,26 @@ export const Contact = () => {
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-muted-foreground leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
               Have a project in mind? I'd love to hear about it. Send me a
               message and let's discuss how we can work together.
             </p>
           </Reveal>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 max-w-5xl mx-auto">
           {/* Contact Form */}
           <Reveal variant="fadeLeft">
             <TiltCard tiltAmount={4}>
               <motion.div
-                className="glass p-8 rounded-2xl border border-transparent hover:border-primary/15 relative overflow-hidden"
+                className="glass-divine p-6 sm:p-8 rounded-2xl border border-transparent hover:border-primary/15 relative overflow-hidden"
                 animate={{ y: [0, -4, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               >
                 {/* Top accent */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary via-accent-blue to-accent" />
 
-                <form className="space-y-6" onSubmit={handleSubmit}>
+                <form className="space-y-5 sm:space-y-6" onSubmit={handleSubmit}>
                   <div>
                     <label
                       htmlFor="name"
@@ -141,7 +140,7 @@ export const Contact = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      className="w-full px-4 py-3.5 bg-surface rounded-xl border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground/50 input-glow"
+                      className="w-full px-4 py-3 sm:py-3.5 bg-surface rounded-xl border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground/50 input-glow text-sm sm:text-base"
                     />
                   </div>
 
@@ -161,7 +160,7 @@ export const Contact = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
-                      className="w-full px-4 py-3.5 bg-surface rounded-xl border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground/50 input-glow"
+                      className="w-full px-4 py-3 sm:py-3.5 bg-surface rounded-xl border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground/50 input-glow text-sm sm:text-base"
                     />
                   </div>
 
@@ -181,7 +180,7 @@ export const Contact = () => {
                         setFormData({ ...formData, message: e.target.value })
                       }
                       placeholder="Tell me about your project..."
-                      className="w-full px-4 py-3.5 bg-surface rounded-xl border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground/50 resize-none input-glow"
+                      className="w-full px-4 py-3 sm:py-3.5 bg-surface rounded-xl border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground/50 resize-none input-glow text-sm sm:text-base"
                     />
                   </div>
 
@@ -221,8 +220,8 @@ export const Contact = () => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className={`flex items-center gap-3 p-4 rounded-xl ${submitStatus.type === "success"
-                          ? "bg-green-500/10 border border-green-500/20 text-green-400"
-                          : "bg-red-500/10 border border-red-500/20 text-red-400"
+                        ? "bg-green-500/10 border border-green-500/20 text-green-400"
+                        : "bg-red-500/10 border border-red-500/20 text-red-400"
                         }`}
                     >
                       {submitStatus.type === "success" ? (
@@ -239,35 +238,40 @@ export const Contact = () => {
           </Reveal>
 
           {/* Contact Info */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <Reveal variant="fadeRight">
               <TiltCard tiltAmount={5}>
-                <div className="glass rounded-2xl p-8 border border-transparent hover:border-primary/15 relative overflow-hidden">
+                <div className="glass-divine rounded-2xl p-6 sm:p-8 border border-transparent hover:border-primary/15 relative overflow-hidden group">
                   <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-accent-blue to-primary opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-primary neon-glow" />
+                  <h3 className="text-lg sm:text-xl font-semibold mb-5 sm:mb-6 flex items-center gap-2">
+                    <motion.div
+                      animate={{ rotate: [0, 15, -15, 0] }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                    >
+                      <Sparkles className="w-5 h-5 text-primary" />
+                    </motion.div>
                     Contact Information
                   </h3>
-                  <div className="space-y-3">
+                  <div className="space-y-2 sm:space-y-3">
                     {contactInfo.map((item, i) => (
                       <motion.a
                         key={i}
                         href={item.href}
-                        className="flex items-center gap-4 p-4 rounded-xl hover:bg-surface transition-all group"
+                        className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl hover:bg-surface transition-all group/item"
                         whileHover={{ x: 6 }}
                         transition={{ type: "spring", stiffness: 300 }}
                       >
                         <motion.div
-                          className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300"
+                          className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover/item:bg-primary/20 transition-all duration-300"
                           whileHover={{ scale: 1.15, rotate: 5 }}
                         >
-                          <item.icon className="w-5 h-5 text-primary" />
+                          <item.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                         </motion.div>
                         <div>
                           <div className="text-xs text-muted-foreground font-mono uppercase tracking-wider">
                             {item.label}
                           </div>
-                          <div className="font-medium group-hover:text-primary transition-colors">
+                          <div className="text-sm sm:text-base font-medium group-hover/item:text-primary transition-colors">
                             {item.value}
                           </div>
                         </div>
@@ -281,7 +285,7 @@ export const Contact = () => {
             {/* Availability Card */}
             <Reveal variant="fadeRight" delay={0.15}>
               <TiltCard tiltAmount={5}>
-                <div className="glass rounded-2xl p-8 border border-primary/15 relative overflow-hidden holographic">
+                <div className="glass-divine rounded-2xl p-6 sm:p-8 border border-primary/15 relative overflow-hidden holographic">
                   <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-green-500 to-primary" />
                   <div className="flex items-center gap-3 mb-4">
                     <span className="relative flex h-3 w-3">
@@ -290,7 +294,7 @@ export const Contact = () => {
                     </span>
                     <span className="font-medium">Currently Available</span>
                   </div>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
+                  <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
                     I'm currently open to internship and junior engineering
                     opportunities. Whether you need a full-stack developer or
                     an AI/ML collaborator, let's connect!
