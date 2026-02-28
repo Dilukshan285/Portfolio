@@ -6,7 +6,7 @@ const socialLinks = [
   { icon: Github, href: "https://github.com/Dilukshan285", label: "GitHub", hoverColor: "#e0e0e0" },
   {
     icon: Linkedin,
-    href: "https://linkedin.com/in/dilukshan-viyapury",
+    href: "https://www.linkedin.com/in/dilukshan-viyapury-a26046328/",
     label: "LinkedIn",
     hoverColor: "#0077b5",
   },

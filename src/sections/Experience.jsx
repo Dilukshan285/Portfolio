@@ -2,6 +2,7 @@ import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
 import { motion } from "framer-motion";
 import { Briefcase, GraduationCap } from "lucide-react";
 import { TiltCard } from "@/components/TiltCard";
+import { getTechLogo } from "@/utils/techLogos";
 
 const experiences = [
   {
@@ -187,8 +188,9 @@ export const Experience = () => {
                           {exp.technologies.map((tech, techIdx) => (
                             <span
                               key={techIdx}
-                              className="px-2.5 sm:px-3 py-1 bg-surface text-xs rounded-full text-muted-foreground font-mono border border-border/50 hover:border-primary/30 hover:text-primary transition-all"
+                              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 bg-surface text-xs rounded-full text-foreground/70 font-mono border border-border hover:border-primary/30 hover:text-primary transition-all"
                             >
+                              {getTechLogo(tech) && <img src={getTechLogo(tech)} alt={tech} className="w-3.5 h-3.5 object-contain" />}
                               {tech}
                             </span>
                           ))}

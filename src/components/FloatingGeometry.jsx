@@ -1,272 +1,219 @@
-import { useEffect, useRef } from "react";
+import { useRef, useMemo, useEffect, useState } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Float, MeshDistortMaterial, Sphere } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import * as THREE from "three";
 
-// Advanced Sacred Geometry 3D Canvas — Metatron's Cube, orbiting shapes, cosmic particles
-export const FloatingGeometry = () => {
-    const canvasRef = useRef(null);
-    const mouseRef = useRef({ x: 0, y: 0 });
+// ─── Minimal floating particles with gravity-like orbits ───
+const FloatingParticles = ({ count = 60 }) => {
+    const meshRef = useRef();
 
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");
-        let animationId;
-
-        const resize = () => {
-            canvas.width = canvas.parentElement.offsetWidth;
-            canvas.height = canvas.parentElement.offsetHeight;
-        };
-        resize();
-        window.addEventListener("resize", resize);
-
-        const handleMouseMove = (e) => {
-            const rect = canvas.getBoundingClientRect();
-            mouseRef.current = {
-                x: (e.clientX - rect.left) / rect.width - 0.5,
-                y: (e.clientY - rect.top) / rect.height - 0.5,
-            };
-        };
-        window.addEventListener("mousemove", handleMouseMove);
-
-        // 3D math helpers
-        const rotateX = (p, a) => {
-            const c = Math.cos(a), s = Math.sin(a);
-            return [p[0], p[1] * c - p[2] * s, p[1] * s + p[2] * c];
-        };
-        const rotateY = (p, a) => {
-            const c = Math.cos(a), s = Math.sin(a);
-            return [p[0] * c + p[2] * s, p[1], -p[0] * s + p[2] * c];
-        };
-        const rotateZ = (p, a) => {
-            const c = Math.cos(a), s = Math.sin(a);
-            return [p[0] * c - p[1] * s, p[0] * s + p[1] * c, p[2]];
-        };
-        const project = (pt, cx, cy, scale) => {
-            const z = pt[2] + 5;
-            const f = scale / z;
-            return [cx + pt[0] * f, cy + pt[1] * f, z];
-        };
-
-        // ─── Metatron's Cube (13 circles + connecting lines) ───
-        const metatronPoints = [];
-        // Center
-        metatronPoints.push([0, 0, 0]);
-        // Inner hexagon
-        for (let i = 0; i < 6; i++) {
-            const a = (i / 6) * Math.PI * 2;
-            metatronPoints.push([Math.cos(a) * 0.5, Math.sin(a) * 0.5, 0]);
-        }
-        // Outer hexagon
-        for (let i = 0; i < 6; i++) {
-            const a = (i / 6) * Math.PI * 2 + Math.PI / 6;
-            metatronPoints.push([Math.cos(a) * 0.9, Math.sin(a) * 0.9, 0]);
-        }
-        const metatronEdges = [];
-        // Connect all points to each other for Metatron's Cube
-        for (let i = 0; i < metatronPoints.length; i++) {
-            for (let j = i + 1; j < metatronPoints.length; j++) {
-                metatronEdges.push([i, j]);
-            }
-        }
-
-        // ─── Torus Knot ───
-        const torusKnotPoints = [];
-        const torusKnotEdges = [];
-        const knotSeg = 100;
-        for (let i = 0; i < knotSeg; i++) {
-            const t = (i / knotSeg) * Math.PI * 4;
-            const r = 0.6 + 0.25 * Math.cos(1.5 * t);
-            torusKnotPoints.push([r * Math.cos(t), r * Math.sin(t), 0.25 * Math.sin(1.5 * t)]);
-            torusKnotEdges.push([i, (i + 1) % knotSeg]);
-        }
-
-        // ─── Icosahedron ───
-        const phi = (1 + Math.sqrt(5)) / 2;
-        const icoRaw = [
-            [-1, phi, 0], [1, phi, 0], [-1, -phi, 0], [1, -phi, 0],
-            [0, -1, phi], [0, 1, phi], [0, -1, -phi], [0, 1, -phi],
-            [phi, 0, -1], [phi, 0, 1], [-phi, 0, -1], [-phi, 0, 1],
-        ];
-        const icoS = 0.4;
-        const icoPoints = icoRaw.map((p) => [p[0] * icoS, p[1] * icoS, p[2] * icoS]);
-        const icoEdges = [
-            [0, 1], [0, 5], [0, 7], [0, 10], [0, 11], [1, 5], [1, 7], [1, 8], [1, 9],
-            [2, 3], [2, 4], [2, 6], [2, 10], [2, 11], [3, 4], [3, 6], [3, 8], [3, 9],
-            [4, 5], [4, 9], [4, 11], [5, 9], [5, 11], [6, 7], [6, 8], [6, 10],
-            [7, 8], [7, 10], [8, 9], [10, 11],
-        ];
-
-        // ─── Dodecahedron ───
-        const dodecPoints = [];
-        const dodecEdges = [];
-        const dodecSegs = 60;
-        for (let i = 0; i < dodecSegs; i++) {
-            const t = (i / dodecSegs) * Math.PI * 2;
-            const r = 0.5 + 0.15 * Math.sin(t * 5);
-            dodecPoints.push([r * Math.cos(t), r * Math.sin(t), 0.15 * Math.cos(t * 3)]);
-            dodecEdges.push([i, (i + 1) % dodecSegs]);
-        }
-
-        // ─── Orbiting Ring ───
-        const ringPoints = [];
-        const ringEdges = [];
-        const ringSeg = 64;
-        for (let i = 0; i < ringSeg; i++) {
-            const angle = (i / ringSeg) * Math.PI * 2;
-            ringPoints.push([Math.cos(angle) * 0.65, Math.sin(angle) * 0.65, 0]);
-            ringEdges.push([i, (i + 1) % ringSeg]);
-        }
-
-        // Shape configurations
-        const shapes = [
-            { pts: metatronPoints, edges: metatronEdges, offset: [2.5, 0.2, -1], color: [0, 245, 212], rotSpeed: [0.08, 0.12, 0.05], glowSize: 3 },
-            { pts: torusKnotPoints, edges: torusKnotEdges, offset: [-2.8, -0.5, -0.5], color: [123, 47, 247], rotSpeed: [0.12, 0.15, 0], glowSize: 2 },
-            { pts: icoPoints, edges: icoEdges, offset: [-1.5, 1.8, -1.5], color: [0, 180, 216], rotSpeed: [0.1, 0.08, 0.12], glowSize: 4 },
-            { pts: dodecPoints, edges: dodecEdges, offset: [1.5, -2, -1], color: [255, 45, 135], rotSpeed: [0.06, 0.1, 0.08], glowSize: 2 },
-            { pts: ringPoints, edges: ringEdges, offset: [0, 0.5, -2.5], color: [255, 215, 0], rotSpeed: [0.03, 0, 0.15], glowSize: 2 },
-        ];
-
-        // Cosmic dust particles
-        const particles = [];
-        for (let i = 0; i < 50; i++) {
-            particles.push({
-                x: (Math.random() - 0.5) * 8,
-                y: (Math.random() - 0.5) * 6,
-                z: Math.random() * 4 + 1,
-                size: Math.random() * 2 + 0.5,
-                speed: Math.random() * 0.003 + 0.001,
-                offset: Math.random() * Math.PI * 2,
-                color: [
-                    [0, 245, 212],
-                    [123, 47, 247],
-                    [0, 180, 216],
-                    [255, 45, 135],
-                    [255, 215, 0],
-                ][Math.floor(Math.random() * 5)],
+    const particles = useMemo(() => {
+        const temp = [];
+        for (let i = 0; i < count; i++) {
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            const r = 3 + Math.random() * 5;
+            temp.push({
+                orbitRadius: r,
+                orbitAngle: theta,
+                orbitTilt: phi,
+                orbitSpeed: (Math.random() - 0.5) * 0.08,
+                scale: Math.random() * 0.018 + 0.006,
+                speed: Math.random() * 0.2 + 0.05,
+                colorIdx: Math.floor(Math.random() * 4),
+                yOffset: (Math.random() - 0.5) * 2,
             });
         }
+        return temp;
+    }, [count]);
 
-        const animate = (time) => {
-            const t = time * 0.001;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const dummy = useMemo(() => new THREE.Object3D(), []);
 
-            const cx = canvas.width / 2;
-            const cy = canvas.height / 2;
-            const scale = Math.min(canvas.width, canvas.height) * 0.38;
+    const colors = useMemo(() => [
+        new THREE.Color("#00f5d4"),
+        new THREE.Color("#7b2ff7"),
+        new THREE.Color("#00b4d8"),
+        new THREE.Color("#ff2d87"),
+    ], []);
 
-            const mx = mouseRef.current.x;
-            const my = mouseRef.current.y;
+    const colorArray = useMemo(() => {
+        const arr = new Float32Array(count * 3);
+        particles.forEach((p, i) => {
+            const c = colors[p.colorIdx];
+            arr[i * 3] = c.r;
+            arr[i * 3 + 1] = c.g;
+            arr[i * 3 + 2] = c.b;
+        });
+        return arr;
+    }, [count, particles, colors]);
 
-            // Draw shapes with glowing edges
-            shapes.forEach((shape) => {
-                const { pts, edges, offset, color, rotSpeed, glowSize } = shape;
+    useFrame((state) => {
+        const t = state.clock.elapsedTime;
+        particles.forEach((p, i) => {
+            p.orbitAngle += p.orbitSpeed * 0.008;
+            const x = p.orbitRadius * Math.cos(p.orbitAngle);
+            const y = p.yOffset + Math.sin(t * p.speed + i * 0.2) * 0.8;
+            const z = p.orbitRadius * Math.sin(p.orbitAngle) * 0.4;
 
-                edges.forEach(([a, b]) => {
-                    let pA = [...pts[a]];
-                    let pB = [...pts[b]];
-
-                    pA = rotateX(pA, t * rotSpeed[0] + my * 0.4);
-                    pA = rotateY(pA, t * rotSpeed[1] + mx * 0.4);
-                    pA = rotateZ(pA, t * rotSpeed[2]);
-                    pB = rotateX(pB, t * rotSpeed[0] + my * 0.4);
-                    pB = rotateY(pB, t * rotSpeed[1] + mx * 0.4);
-                    pB = rotateZ(pB, t * rotSpeed[2]);
-
-                    const floatY = Math.sin(t * 0.4 + offset[0]) * 0.2;
-                    const floatX = Math.cos(t * 0.3 + offset[1]) * 0.1;
-                    pA = [pA[0] + offset[0] + floatX, pA[1] + offset[1] + floatY, pA[2] + offset[2]];
-                    pB = [pB[0] + offset[0] + floatX, pB[1] + offset[1] + floatY, pB[2] + offset[2]];
-
-                    const projA = project(pA, cx, cy, scale);
-                    const projB = project(pB, cx, cy, scale);
-
-                    // Glow layer
-                    ctx.strokeStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.04)`;
-                    ctx.lineWidth = glowSize + 2;
-                    ctx.beginPath();
-                    ctx.moveTo(projA[0], projA[1]);
-                    ctx.lineTo(projB[0], projB[1]);
-                    ctx.stroke();
-
-                    // Main line
-                    const opacity = 0.08 + Math.sin(t * 2 + a * 0.1) * 0.04;
-                    ctx.strokeStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${opacity})`;
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(projA[0], projA[1]);
-                    ctx.lineTo(projB[0], projB[1]);
-                    ctx.stroke();
-                });
-
-                // Glowing vertices
-                pts.forEach((pt, idx) => {
-                    let p = [...pt];
-                    p = rotateX(p, t * rotSpeed[0] + my * 0.4);
-                    p = rotateY(p, t * rotSpeed[1] + mx * 0.4);
-                    p = rotateZ(p, t * rotSpeed[2]);
-                    const floatY = Math.sin(t * 0.4 + offset[0]) * 0.2;
-                    const floatX = Math.cos(t * 0.3 + offset[1]) * 0.1;
-                    p = [p[0] + offset[0] + floatX, p[1] + offset[1] + floatY, p[2] + offset[2]];
-                    const proj = project(p, cx, cy, scale);
-
-                    const pulse = 0.15 + Math.sin(t * 3 + idx * 0.5) * 0.1;
-                    const r = 1.5 + Math.sin(t * 2 + idx) * 0.5;
-
-                    // Glow
-                    const grad = ctx.createRadialGradient(proj[0], proj[1], 0, proj[0], proj[1], r * 4);
-                    grad.addColorStop(0, `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${pulse})`);
-                    grad.addColorStop(1, `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0)`);
-                    ctx.beginPath();
-                    ctx.arc(proj[0], proj[1], r * 4, 0, Math.PI * 2);
-                    ctx.fillStyle = grad;
-                    ctx.fill();
-
-                    // Dot
-                    ctx.beginPath();
-                    ctx.arc(proj[0], proj[1], r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${pulse + 0.1})`;
-                    ctx.fill();
-                });
-            });
-
-            // Cosmic particles
-            particles.forEach((p) => {
-                const py = p.y + Math.sin(t * 0.5 + p.offset) * 0.4;
-                const px = p.x + Math.cos(t * 0.3 + p.offset) * 0.2;
-                const proj = project([px, py, p.z], cx, cy, scale);
-
-                const pulse = 0.15 + Math.sin(t * 2 + p.offset) * 0.1;
-                const size = p.size * (1 + Math.sin(t + p.offset) * 0.3);
-
-                // Glow
-                const grad = ctx.createRadialGradient(proj[0], proj[1], 0, proj[0], proj[1], size * 5);
-                grad.addColorStop(0, `rgba(${p.color[0]}, ${p.color[1]}, ${p.color[2]}, ${pulse})`);
-                grad.addColorStop(1, `rgba(${p.color[0]}, ${p.color[1]}, ${p.color[2]}, 0)`);
-                ctx.beginPath();
-                ctx.arc(proj[0], proj[1], size * 5, 0, Math.PI * 2);
-                ctx.fillStyle = grad;
-                ctx.fill();
-
-                ctx.beginPath();
-                ctx.arc(proj[0], proj[1], size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${p.color[0]}, ${p.color[1]}, ${p.color[2]}, ${pulse + 0.1})`;
-                ctx.fill();
-            });
-
-            animationId = requestAnimationFrame(animate);
-        };
-        animate(0);
-
-        return () => {
-            cancelAnimationFrame(animationId);
-            window.removeEventListener("resize", resize);
-            window.removeEventListener("mousemove", handleMouseMove);
-        };
-    }, []);
+            dummy.position.set(x, y, z - 2);
+            const pulse = 1 + Math.sin(t * 1.5 + i) * 0.2;
+            dummy.scale.setScalar(p.scale * pulse);
+            dummy.updateMatrix();
+            meshRef.current.setMatrixAt(i, dummy.matrix);
+        });
+        meshRef.current.instanceMatrix.needsUpdate = true;
+    });
 
     return (
-        <canvas
-            ref={canvasRef}
-            className="absolute inset-0 pointer-events-none"
-            style={{ zIndex: 0 }}
-        />
+        <instancedMesh ref={meshRef} args={[null, null, count]}>
+            <sphereGeometry args={[1, 6, 6]} />
+            <meshBasicMaterial toneMapped={false}>
+                <instancedBufferAttribute attach="color" args={[colorArray, 3]} />
+            </meshBasicMaterial>
+        </instancedMesh>
+    );
+};
+
+// ─── Subtle wireframe icosahedron ───
+const WireframeShape = ({ position, color, scale = 1, rotationSpeed = 0.08 }) => {
+    const meshRef = useRef();
+
+    useFrame((state) => {
+        const t = state.clock.elapsedTime;
+        meshRef.current.rotation.x = t * rotationSpeed;
+        meshRef.current.rotation.y = t * rotationSpeed * 0.7;
+    });
+
+    return (
+        <Float speed={1} rotationIntensity={0.2} floatIntensity={0.5}>
+            <mesh ref={meshRef} position={position} scale={scale}>
+                <icosahedronGeometry args={[1, 1]} />
+                <meshBasicMaterial
+                    color={color}
+                    wireframe
+                    transparent
+                    opacity={0.06}
+                    toneMapped={false}
+                />
+            </mesh>
+        </Float>
+    );
+};
+
+// ─── Subtle distorted sphere ───
+const SubtleSphere = () => {
+    return (
+        <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.6}>
+            <Sphere args={[1, 48, 48]} position={[-4, -1.5, -3]} scale={0.7}>
+                <MeshDistortMaterial
+                    color="#00f5d4"
+                    wireframe
+                    transparent
+                    opacity={0.04}
+                    distort={0.3}
+                    speed={1.5}
+                    toneMapped={false}
+                />
+            </Sphere>
+        </Float>
+    );
+};
+
+// ─── Single thin orbit ring ───
+const OrbitRing = ({ radius, color, speed, tiltX }) => {
+    const ref = useRef();
+
+    useFrame((state) => {
+        ref.current.rotation.x = tiltX;
+        ref.current.rotation.z = state.clock.elapsedTime * speed;
+    });
+
+    return (
+        <mesh ref={ref} position={[0, 0, -2]}>
+            <torusGeometry args={[radius, 0.004, 16, 100]} />
+            <meshBasicMaterial color={color} transparent opacity={0.08} toneMapped={false} />
+        </mesh>
+    );
+};
+
+// ─── Mouse-reactive camera (subtle) ───
+const CameraRig = () => {
+    const { camera } = useThree();
+    const mouse = useRef({ x: 0, y: 0 });
+
+    useEffect(() => {
+        const handleMouseMove = (e) => {
+            mouse.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
+            mouse.current.y = (e.clientY / window.innerHeight - 0.5) * 2;
+        };
+        window.addEventListener("mousemove", handleMouseMove);
+        return () => window.removeEventListener("mousemove", handleMouseMove);
+    }, []);
+
+    useFrame(() => {
+        camera.position.x += (mouse.current.x * 0.8 - camera.position.x) * 0.015;
+        camera.position.y += (-mouse.current.y * 0.5 - camera.position.y) * 0.015;
+        camera.lookAt(0, 0, 0);
+    });
+
+    return null;
+};
+
+// ─── Main Scene — Clean & Professional ───
+const Scene = () => {
+    return (
+        <>
+            <ambientLight intensity={0.1} />
+            <CameraRig />
+
+            {/* Sparse floating particles */}
+            <FloatingParticles count={50} />
+
+            {/* Two subtle wireframe shapes, well-separated */}
+            <WireframeShape position={[4, 1.5, -3]} color="#00f5d4" scale={1} rotationSpeed={0.06} />
+            <WireframeShape position={[-3.5, -2, -4]} color="#7b2ff7" scale={0.8} rotationSpeed={0.04} />
+
+            {/* Subtle distorted sphere */}
+            <SubtleSphere />
+
+            {/* Two thin orbit rings */}
+            <OrbitRing radius={5} color="#00f5d4" speed={0.08} tiltX={Math.PI * 0.2} />
+            <OrbitRing radius={6.5} color="#7b2ff7" speed={-0.05} tiltX={Math.PI * 0.4} />
+
+            {/* Post-processing: gentle bloom only */}
+            <EffectComposer>
+                <Bloom
+                    intensity={0.8}
+                    luminanceThreshold={0.15}
+                    luminanceSmoothing={0.9}
+                    mipmapBlur
+                />
+            </EffectComposer>
+        </>
+    );
+};
+
+// ─── Exported Component ───
+export const FloatingGeometry = () => {
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (!isMounted) return null;
+
+    return (
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+            <Canvas
+                camera={{ position: [0, 0, 8], fov: 55 }}
+                dpr={[1, 1.5]}
+                gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+                style={{ background: "transparent" }}
+            >
+                <Scene />
+            </Canvas>
+        </div>
     );
 };

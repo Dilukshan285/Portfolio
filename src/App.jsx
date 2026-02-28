@@ -6,7 +6,6 @@ import { Experience } from "@/sections/Experience";
 import { Testimonials } from "@/sections/Testimonials";
 import { Contact } from "@/sections/Contact";
 import { Footer } from "./layout/Footer";
-import { ParticleField } from "@/components/ParticleField";
 import { SectionDivider } from "@/components/SectionDivider";
 import { CustomCursor } from "@/components/CustomCursor";
 import { motion, AnimatePresence } from "framer-motion";
@@ -208,9 +207,6 @@ function App() {
 
       {/* Custom Cursor */}
       <CustomCursor />
-
-      {/* Global particle background */}
-      <ParticleField />
 
       <Navbar />
       <main>

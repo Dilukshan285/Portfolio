@@ -2,6 +2,7 @@ import { ArrowUpRight, Github, ExternalLink, X, ChevronLeft, ChevronRight, Image
 import { AnimatedBorderButton } from "@/components/AnimatedBorderButton";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
 import { TiltCard } from "@/components/TiltCard";
+import { getTechLogo } from "@/utils/techLogos";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
 
@@ -403,13 +404,14 @@ export const Projects = () => {
                       {project.tags.map((tag, tagIdx) => (
                         <motion.span
                           key={tagIdx}
-                          className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-surface text-xs font-medium font-mono border border-border/50 text-muted-foreground hover:border-primary/50 hover:text-primary transition-all duration-300"
+                          className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-surface text-xs font-medium font-mono border border-border text-foreground/70 hover:border-primary/50 hover:text-primary transition-all duration-300"
                           initial={{ opacity: 0, scale: 0.8 }}
                           whileInView={{ opacity: 1, scale: 1 }}
                           transition={{ delay: tagIdx * 0.05 }}
                           viewport={{ once: true }}
                           whileHover={{ scale: 1.05, y: -2 }}
                         >
+                          {getTechLogo(tag) && <img src={getTechLogo(tag)} alt={tag} className="w-3.5 h-3.5 object-contain" />}
                           {tag}
                         </motion.span>
                       ))}

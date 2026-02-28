@@ -11,11 +11,22 @@ import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
 import { TiltCard } from "@/components/TiltCard";
 import { motion } from "framer-motion";
 
+const d = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
+const dl = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
+
 const skillCategories = [
   {
     icon: Code2,
     title: "Languages",
-    skills: ["Python", "JavaScript", "Java", "PHP", "HTML5", "CSS3", "SQL"],
+    skills: [
+      { name: "Python", logo: `${d}/python/python-original.svg` },
+      { name: "JavaScript", logo: `${d}/javascript/javascript-original.svg` },
+      { name: "Java", logo: `${d}/java/java-original.svg` },
+      { name: "PHP", logo: `${d}/php/php-original.svg` },
+      { name: "HTML5", logo: `${d}/html5/html5-original.svg` },
+      { name: "CSS3", logo: `${d}/css3/css3-original.svg` },
+      { name: "SQL", logo: `${dl}/azuresqldatabase/azuresqldatabase-original.svg` },
+    ],
     gradient: "from-primary to-accent-blue",
     glowColor: "rgba(0, 245, 212, 0.15)",
   },
@@ -23,13 +34,13 @@ const skillCategories = [
     icon: Globe,
     title: "Frontend",
     skills: [
-      "React.js (v18/v19)",
-      "Redux Toolkit",
-      "Next.js",
-      "Tailwind CSS",
-      "Vite",
-      "Framer Motion",
-      "i18next",
+      { name: "React.js", logo: `${d}/react/react-original.svg` },
+      { name: "Redux Toolkit", logo: `${d}/redux/redux-original.svg` },
+      { name: "Next.js", logo: `${d}/nextjs/nextjs-original.svg` },
+      { name: "Tailwind CSS", logo: `${dl}/tailwindcss/tailwindcss-original.svg` },
+      { name: "Vite", logo: `${dl}/vitejs/vitejs-original.svg` },
+      { name: "Framer Motion", logo: `${dl}/framermotion/framermotion-original.svg` },
+      { name: "i18next", logo: `${d}/react/react-original.svg` },
     ],
     gradient: "from-accent-blue to-accent",
     glowColor: "rgba(0, 180, 216, 0.15)",
@@ -37,14 +48,25 @@ const skillCategories = [
   {
     icon: Server,
     title: "Backend",
-    skills: ["Node.js", "Express.js", "Spring Boot", "Flask", "FastAPI"],
+    skills: [
+      { name: "Node.js", logo: `${d}/nodejs/nodejs-original.svg` },
+      { name: "Express.js", logo: `${d}/express/express-original.svg` },
+      { name: "Spring Boot", logo: `${d}/spring/spring-original.svg` },
+      { name: "Flask", logo: `${d}/flask/flask-original.svg` },
+      { name: "FastAPI", logo: `${d}/fastapi/fastapi-original.svg` },
+    ],
     gradient: "from-accent to-accent-pink",
     glowColor: "rgba(123, 47, 247, 0.15)",
   },
   {
     icon: Database,
     title: "Databases",
-    skills: ["MongoDB", "MongoDB Atlas", "MySQL", "Mongoose"],
+    skills: [
+      { name: "MongoDB", logo: `${d}/mongodb/mongodb-original.svg` },
+      { name: "MongoDB Atlas", logo: `${d}/mongodb/mongodb-original.svg` },
+      { name: "MySQL", logo: `${d}/mysql/mysql-original.svg` },
+      { name: "Mongoose", logo: `${d}/mongoose/mongoose-original.svg` },
+    ],
     gradient: "from-accent-pink to-highlight",
     glowColor: "rgba(255, 45, 135, 0.15)",
   },
@@ -52,11 +74,11 @@ const skillCategories = [
     icon: BrainCircuit,
     title: "AI / ML",
     skills: [
-      "PyTorch",
-      "scikit-learn",
-      "Federated Learning (DW-FedAvg)",
-      "NLP",
-      "XAI (Grad-CAM, LIME, SHAP)",
+      { name: "PyTorch", logo: `${d}/pytorch/pytorch-original.svg` },
+      { name: "scikit-learn", logo: `${dl}/scikitlearn/scikitlearn-original.svg` },
+      { name: "Federated Learning", logo: `${d}/python/python-original.svg` },
+      { name: "NLP", logo: `${d}/python/python-original.svg` },
+      { name: "XAI", logo: `${d}/python/python-original.svg` },
     ],
     gradient: "from-highlight to-primary",
     glowColor: "rgba(255, 215, 0, 0.15)",
@@ -65,12 +87,12 @@ const skillCategories = [
     icon: Eye,
     title: "Vision & Data",
     skills: [
-      "YOLOv8",
-      "YOLO11",
-      "Sentence Transformers (SBERT)",
-      "Pandas",
-      "NumPy",
-      "BeautifulSoup",
+      { name: "YOLOv8", logo: `${d}/python/python-original.svg` },
+      { name: "YOLO11", logo: `${d}/python/python-original.svg` },
+      { name: "SBERT", logo: `${d}/python/python-original.svg` },
+      { name: "Pandas", logo: `${d}/pandas/pandas-original.svg` },
+      { name: "NumPy", logo: `${d}/numpy/numpy-original.svg` },
+      { name: "BeautifulSoup", logo: `${d}/python/python-original.svg` },
     ],
     gradient: "from-primary to-accent",
     glowColor: "rgba(0, 245, 212, 0.15)",
@@ -79,15 +101,15 @@ const skillCategories = [
     icon: Wrench,
     title: "Tools & DevOps",
     skills: [
-      "Git",
-      "GitHub Actions (CI/CD)",
-      "Jest",
-      "Cypress E2E",
-      "Firebase",
-      "Postman",
-      "AWS",
-      "CUDA",
-      "ExcelJS",
+      { name: "Git", logo: `${d}/git/git-original.svg` },
+      { name: "GitHub Actions", logo: `${d}/github/github-original.svg` },
+      { name: "Jest", logo: `${d}/jest/jest-plain.svg` },
+      { name: "Cypress", logo: `${dl}/cypressio/cypressio-original.svg` },
+      { name: "Firebase", logo: `${d}/firebase/firebase-plain.svg` },
+      { name: "Postman", logo: `${dl}/postman/postman-original.svg` },
+      { name: "AWS", logo: `${dl}/amazonwebservices/amazonwebservices-original-wordmark.svg` },
+      { name: "CUDA", logo: `${d}/python/python-original.svg` },
+      { name: "Docker", logo: `${d}/docker/docker-original.svg` },
     ],
     gradient: "from-accent to-accent-blue",
     glowColor: "rgba(123, 47, 247, 0.15)",
@@ -170,10 +192,11 @@ export const Testimonials = () => {
                     {category.skills.map((skill, skillIdx) => (
                       <motion.span
                         key={skillIdx}
-                        className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-surface text-xs font-mono border border-border/50 text-muted-foreground hover:border-primary/50 hover:text-primary transition-all duration-300 cursor-default"
+                        className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-surface text-xs font-mono border border-border text-foreground/70 hover:border-primary/50 hover:text-primary transition-all duration-300 cursor-default"
                         whileHover={{ scale: 1.05, y: -2 }}
                       >
-                        {skill}
+                        <img src={skill.logo} alt={skill.name} className="w-3.5 h-3.5 object-contain" />
+                        {skill.name}
                       </motion.span>
                     ))}
                   </div>
