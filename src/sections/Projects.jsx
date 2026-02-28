@@ -65,7 +65,13 @@ const projects = [
     title: "ElectroWave — Electronics E-commerce",
     description:
       "MERN electronics store with JWT auth, admin product/order management, cart and checkout. Full DevOps: GitHub Actions pipeline runs ESLint, Jest unit tests, and Cypress E2E on every push with automated Vercel deployment.",
-    images: [`${base}projects/project1.png`],
+    images: [
+      `${base}projects/E1.png`,
+      `${base}projects/E2.png`,
+      `${base}projects/E3.png`,
+      `${base}projects/E4.png`,
+      `${base}projects/E5.png`,
+    ],
     tags: ["React.js", "MongoDB", "Jest", "Cypress", "GitHub Actions", "Vercel"],
     link: "#",
     github: "https://github.com/Dilukshan285/Electro",

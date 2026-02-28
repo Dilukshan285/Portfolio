@@ -36,24 +36,49 @@ const LoadingScreen = ({ onComplete }) => {
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
     >
-      {/* Animated logo */}
+      {/* Animated ring + logo */}
       <motion.div
+        className="relative mb-10"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
-        className="mb-8"
       >
-        <span className="text-5xl font-bold tracking-tight">
-          <span className="text-gradient">DV</span>
-          <span className="text-primary">.</span>
-        </span>
+        {/* Spinning ring */}
+        <motion.div
+          className="w-28 h-28 rounded-full border-2 border-transparent"
+          style={{
+            borderTopColor: "var(--color-primary)",
+            borderRightColor: "color-mix(in srgb, var(--color-accent-blue) 50%, transparent)",
+          }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+        />
+        {/* Pulsing inner glow */}
+        <motion.div
+          className="absolute inset-3 rounded-full"
+          style={{
+            background: "radial-gradient(circle, color-mix(in srgb, var(--color-primary) 10%, transparent), transparent 70%)",
+          }}
+          animate={{ opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        />
+        {/* Logo text — solid color, centered */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-3xl font-bold tracking-tight">
+            <span className="text-primary">DV</span>
+            <span className="text-accent-blue">.</span>
+          </span>
+        </div>
       </motion.div>
 
       {/* Progress bar */}
       <div className="w-48 h-[2px] bg-border/30 rounded-full overflow-hidden">
         <motion.div
-          className="h-full scroll-progress rounded-full"
-          style={{ width: `${progress}%` }}
+          className="h-full rounded-full"
+          style={{
+            width: `${progress}%`,
+            background: "linear-gradient(90deg, var(--color-primary), var(--color-accent-blue))",
+          }}
         />
       </div>
 
