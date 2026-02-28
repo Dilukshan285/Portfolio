@@ -96,7 +96,14 @@ const projects = [
     title: "UniScraper — AI Course Recommendation Engine",
     description:
       "Intelligent course recommendation for 11 Sri Lankan universities. Custom HTML extractors, SBERT semantic search with cosine similarity, sklearn eligibility predictor, and FastAPI backend with MongoDB Atlas.",
-    images: [`${base}projects/project2.png`],
+    images: [
+      `${base}projects/U1.png`,
+      `${base}projects/U2.png`,
+      `${base}projects/U3.png`,
+      `${base}projects/U4.png`,
+      `${base}projects/U5.png`,
+      `${base}projects/U6.png`,
+    ],
     tags: ["Python", "FastAPI", "SBERT", "scikit-learn", "BeautifulSoup", "MongoDB Atlas"],
     link: "#",
     github: "#",
