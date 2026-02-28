@@ -12,7 +12,7 @@ const projects = [
     title: "FedMed — Federated Multi-Modal Medical AI",
     description:
       "Privacy-preserving federated learning system diagnosing 10 diseases across 2 hospitals using MIMIC-IV data. Custom DW-FedAvg algorithm with 5-channel multi-modal architecture fusing labs, X-rays (ResNet-50), and clinical notes (BioClinicalBERT). Achieves 0.89 AUROC.",
-    images: [`${base}projects/project1.png`],
+    images: [`${base}projects/FM1.png`, `${base}projects/FM2.png`],
     tags: ["Python", "PyTorch", "MIMIC-IV", "BioClinicalBERT", "ResNet-50", "CUDA"],
     link: "#",
     github: "#",
