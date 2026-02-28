@@ -215,7 +215,7 @@ export const Hero = () => {
 
               <div className="relative glass rounded-[1.5rem] p-1.5 glow-border">
                 <img
-                  src="/dilu.png"
+                  src={`${import.meta.env.BASE_URL}dilu.png`}
                   alt="Dilukshan Viyapury"
                   className="w-full aspect-[4/5] object-cover rounded-[1.25rem]"
                 />

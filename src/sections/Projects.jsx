@@ -3,12 +3,14 @@ import { AnimatedBorderButton } from "@/components/AnimatedBorderButton";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
 import { motion } from "framer-motion";
 
+const base = import.meta.env.BASE_URL;
+
 const projects = [
   {
     title: "FedMed — Federated Multi-Modal Medical AI",
     description:
       "Privacy-preserving federated learning system diagnosing 10 diseases across 2 hospitals using MIMIC-IV data. Custom DW-FedAvg algorithm with 5-channel multi-modal architecture fusing labs, X-rays (ResNet-50), and clinical notes (BioClinicalBERT). Achieves 0.89 AUROC.",
-    image: "/projects/project1.png",
+    image: `${base}projects/project1.png`,
     tags: ["Python", "PyTorch", "MIMIC-IV", "BioClinicalBERT", "ResNet-50", "CUDA"],
     link: "#",
     github: "#",
@@ -19,7 +21,7 @@ const projects = [
     title: "Watson-News — Candy E-commerce (UK Client)",
     description:
       "Full-stack e-commerce platform for a UK candy retailer with multilingual UI (EN/FR via i18next), Firebase Google OAuth, custom OTP email-verification, promotions engine, wishlist, cart & checkout, and role-based admin dashboard.",
-    image: "/projects/project2.png",
+    image: `${base}projects/project2.png`,
     tags: ["React 18", "Redux Toolkit", "Node.js", "MySQL", "Firebase", "i18next"],
     link: "#",
     github: "https://github.com/Dilukshan285/Watson-News",
@@ -29,7 +31,7 @@ const projects = [
     title: "ShopsTime — UK Supermarket Payroll Portal",
     description:
       "Production-deployed multi-shop payroll system for a UK supermarket client. Employee/shift management with UK timezone-aware auto status updates, automated payroll calculation, per-employee Excel exports, and full audit-logging middleware.",
-    image: "/projects/project3.png",
+    image: `${base}projects/project3.png`,
     tags: ["React.js", "Node.js", "MySQL", "ExcelJS", "JWT", "Audit Middleware"],
     link: "https://shopstime.co.uk",
     github: "https://github.com/Dilukshan285/Wages",
@@ -40,7 +42,7 @@ const projects = [
     title: "Car Service Management System",
     description:
       "Full-stack vehicle service centre platform with multi-role access (Admin, Manager, Employee, Customer). Appointment booking, analytics dashboard, product store with cart/checkout, OTP verification, Firebase OAuth, and Sharp/Multer image processing.",
-    image: "/projects/project4.png",
+    image: `${base}projects/project4.png`,
     tags: ["React 19", "Redux", "MongoDB", "Firebase", "JWT", "Sharp/Multer"],
     link: "#",
     github: "https://github.com/Dilukshan285/Car-Service-Management-System",
@@ -50,7 +52,7 @@ const projects = [
     title: "ElectroWave — Electronics E-commerce",
     description:
       "MERN electronics store with JWT auth, admin product/order management, cart and checkout. Full DevOps: GitHub Actions pipeline runs ESLint, Jest unit tests, and Cypress E2E on every push with automated Vercel deployment.",
-    image: "/projects/project1.png",
+    image: `${base}projects/project1.png`,
     tags: ["React.js", "MongoDB", "Jest", "Cypress", "GitHub Actions", "Vercel"],
     link: "#",
     github: "https://github.com/Dilukshan285/Electro",
@@ -60,7 +62,7 @@ const projects = [
     title: "UniScraper — AI Course Recommendation Engine",
     description:
       "Intelligent course recommendation for 11 Sri Lankan universities. Custom HTML extractors, SBERT semantic search with cosine similarity, sklearn eligibility predictor, and FastAPI backend with MongoDB Atlas.",
-    image: "/projects/project2.png",
+    image: `${base}projects/project2.png`,
     tags: ["Python", "FastAPI", "SBERT", "scikit-learn", "BeautifulSoup", "MongoDB Atlas"],
     link: "#",
     github: "#",
@@ -70,7 +72,7 @@ const projects = [
     title: "Haritha Hub — Plant E-commerce",
     description:
       "Full-stack plant marketplace with Redux Toolkit state management, role-based JWT auth, Multer/Sharp image pipeline, video tutorials, and animated UI with Framer Motion.",
-    image: "/projects/project3.png",
+    image: `${base}projects/project3.png`,
     tags: ["React 19", "Redux Toolkit", "MongoDB", "Framer Motion", "Sharp", "Multer"],
     link: "#",
     github: "https://github.com/Dilukshan285/Haritha_Hub",
@@ -127,9 +129,8 @@ export const Projects = () => {
           {projects.map((project, idx) => (
             <StaggerItem key={idx}>
               <motion.div
-                className={`group glass rounded-2xl overflow-hidden card-hover shine border border-transparent hover:border-primary/20 ${
-                  project.featured ? "md:row-span-1" : ""
-                }`}
+                className={`group glass rounded-2xl overflow-hidden card-hover shine border border-transparent hover:border-primary/20 ${project.featured ? "md:row-span-1" : ""
+                  }`}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.3 }}
               >

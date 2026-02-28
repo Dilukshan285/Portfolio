@@ -1,7 +1,7 @@
 import { Button } from "@/components/Button";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
 
 const navLinks = [
   { href: "#about", label: "About" },
@@ -13,6 +13,12 @@ const navLinks = [
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const controls = useAnimation();
+
+  // Fire entry animation only once on mount
+  useEffect(() => {
+    controls.start({ y: 0, transition: { duration: 0.6, ease: "easeOut" } });
+  }, [controls]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,12 +31,10 @@ export const Navbar = () => {
 
   return (
     <motion.header
-      className={`fixed top-0 left-0 right-0 transition-all duration-500 z-50 ${
-        isScrolled ? "glass-strong py-3" : "bg-transparent py-5"
-      }`}
+      className={`fixed top-0 left-0 right-0 transition-all duration-500 z-50 ${isScrolled ? "glass-strong py-3" : "bg-transparent py-5"
+        }`}
       initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      animate={controls}
     >
       <nav className="container mx-auto px-6 flex items-center justify-between">
         <motion.a
