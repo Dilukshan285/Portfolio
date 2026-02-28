@@ -20,6 +20,25 @@ const projects = [
     featured: true,
   },
   {
+    title: "Watson-News — Candy E-commerce (UK Client)",
+    description:
+      "Full-stack e-commerce platform for a UK candy retailer with multilingual UI (EN/FR via i18next), Firebase Google OAuth, custom OTP email-verification, promotions engine, wishlist, cart & checkout, and role-based admin dashboard.",
+    images: [
+      `${base}projects/C1.png`,
+      `${base}projects/C2.png`,
+      `${base}projects/C3.png`,
+      `${base}projects/C4.png`,
+      `${base}projects/C5.png`,
+      `${base}projects/C6.png`,
+      `${base}projects/C7.png`,
+    ],
+    tags: ["React 18", "Redux Toolkit", "Node.js", "MySQL", "Firebase", "i18next"],
+    link: "#",
+    github: "https://github.com/Dilukshan285/Watson-News",
+    badge: "Client — In Progress",
+    featured: true,
+  },
+  {
     title: "Employee Promotion Prediction & HR System",
     description:
       "Full-stack MERN HR Management System with ML-powered promotion prediction. Features face-recognition login, attendance tracking, leave management, payroll processing, admin dashboards, and area-of-responsibility management. Integrated Flask ML backend using scikit-learn (94% accuracy) with competency-based assessment, development gap analysis, and professional recommendations.",
@@ -29,16 +48,6 @@ const projects = [
     github: "https://github.com/Dilukshan285/Employee_promotion_prediction",
     badge: "Academic",
     featured: true,
-  },
-  {
-    title: "Watson-News — Candy E-commerce (UK Client)",
-    description:
-      "Full-stack e-commerce platform for a UK candy retailer with multilingual UI (EN/FR via i18next), Firebase Google OAuth, custom OTP email-verification, promotions engine, wishlist, cart & checkout, and role-based admin dashboard.",
-    images: [`${base}projects/project2.png`],
-    tags: ["React 18", "Redux Toolkit", "Node.js", "MySQL", "Firebase", "i18next"],
-    link: "#",
-    github: "https://github.com/Dilukshan285/Watson-News",
-    badge: "Client — In Progress",
   },
   {
     title: "ShopsTime — UK Supermarket Payroll Portal",
