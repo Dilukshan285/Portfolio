@@ -64,7 +64,13 @@ const projects = [
     title: "Car Service Management System",
     description:
       "Full-stack vehicle service centre platform with multi-role access (Admin, Manager, Employee, Customer). Appointment booking, analytics dashboard, product store with cart/checkout, OTP verification, Firebase OAuth, and Sharp/Multer image processing.",
-    images: [`${base}projects/project4.png`],
+    images: [
+      `${base}projects/R1.png`,
+      `${base}projects/R2.png`,
+      `${base}projects/R3.png`,
+      `${base}projects/R4.png`,
+      `${base}projects/R6.png`,
+    ],
     tags: ["React 19", "Redux", "MongoDB", "Firebase", "JWT", "Sharp/Multer"],
     link: "#",
     github: "https://github.com/Dilukshan285/Car-Service-Management-System",
