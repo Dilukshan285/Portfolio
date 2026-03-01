@@ -104,7 +104,7 @@ export const Contact = () => {
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
+            <p className="text-muted-foreground leading-relaxed text-base sm:text-base">
               Have a project in mind? I'd love to hear about it. Send me a
               message and let's discuss how we can work together.
             </p>
@@ -127,7 +127,7 @@ export const Contact = () => {
                   <div>
                     <label
                       htmlFor="name"
-                      className="block text-sm font-medium mb-2 font-mono"
+                      className="block text-base font-medium mb-2 font-mono"
                     >
                       Name
                     </label>
@@ -140,14 +140,14 @@ export const Contact = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      className="w-full px-4 py-3 sm:py-3.5 bg-surface rounded-xl border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground/50 input-glow text-sm sm:text-base"
+                      className="w-full px-4 py-3 sm:py-3.5 bg-surface rounded-xl border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground/50 input-glow text-base"
                     />
                   </div>
 
                   <div>
                     <label
                       htmlFor="email"
-                      className="block text-sm font-medium mb-2 font-mono"
+                      className="block text-base font-medium mb-2 font-mono"
                     >
                       Email
                     </label>
@@ -160,14 +160,14 @@ export const Contact = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
-                      className="w-full px-4 py-3 sm:py-3.5 bg-surface rounded-xl border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground/50 input-glow text-sm sm:text-base"
+                      className="w-full px-4 py-3 sm:py-3.5 bg-surface rounded-xl border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground/50 input-glow text-base"
                     />
                   </div>
 
                   <div>
                     <label
                       htmlFor="message"
-                      className="block text-sm font-medium mb-2 font-mono"
+                      className="block text-base font-medium mb-2 font-mono"
                     >
                       Message
                     </label>
@@ -180,7 +180,7 @@ export const Contact = () => {
                         setFormData({ ...formData, message: e.target.value })
                       }
                       placeholder="Tell me about your project..."
-                      className="w-full px-4 py-3 sm:py-3.5 bg-surface rounded-xl border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground/50 resize-none input-glow text-sm sm:text-base"
+                      className="w-full px-4 py-3 sm:py-3.5 bg-surface rounded-xl border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 text-foreground placeholder:text-muted-foreground/50 resize-none input-glow text-base"
                     />
                   </div>
 
@@ -229,7 +229,7 @@ export const Contact = () => {
                       ) : (
                         <AlertCircle className="w-5 h-5 flex-shrink-0" />
                       )}
-                      <p className="text-sm">{submitStatus.message}</p>
+                      <p className="text-base">{submitStatus.message}</p>
                     </motion.div>
                   )}
                 </form>
@@ -294,7 +294,7 @@ export const Contact = () => {
                     </span>
                     <span className="font-medium">Currently Available</span>
                   </div>
-                  <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
+                  <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
                     I'm currently open to internship and junior engineering
                     opportunities. Whether you need a full-stack developer or
                     an AI/ML collaborator, let's connect!

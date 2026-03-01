@@ -392,12 +392,12 @@ export const Projects = () => {
                   {/* Content */}
                   <div className="p-5 sm:p-6 space-y-3 sm:space-y-4 relative z-10">
                     <div className="flex items-start justify-between gap-2">
-                      <h3 className="text-lg sm:text-xl font-semibold group-hover:text-primary transition-colors">
+                      <h3 className="text-xl sm:text-xl font-semibold group-hover:text-primary transition-colors">
                         {project.title}
                       </h3>
                       <ArrowUpRight className="w-5 h-5 flex-shrink-0 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
                     </div>
-                    <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
+                    <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
                       {project.description}
                     </p>
                     <div className="flex flex-wrap gap-1.5 sm:gap-2">

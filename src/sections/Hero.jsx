@@ -144,7 +144,7 @@ export const Hero = () => {
         <FloatingGeometry />
 
         {/* Content */}
-        <div className="container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-6 sm:pb-10 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 pt-24 sm:pt-28 pb-10 sm:pb-14 relative z-10">
           <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-14 items-center">
             {/* Left Column — Text */}
             <div className="space-y-4 sm:space-y-5 lg:space-y-6">
@@ -167,7 +167,7 @@ export const Hero = () => {
               {/* Headline */}
               <div className="space-y-3">
                 <motion.h1
-                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight"
+                  className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
@@ -201,7 +201,7 @@ export const Hero = () => {
                 </motion.h1>
 
                 <motion.p
-                  className="text-sm sm:text-base text-muted-foreground max-w-xl leading-relaxed mt-3"
+                  className="text-base sm:text-lg text-muted-foreground max-w-xl leading-relaxed mt-3"
                   initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   transition={{ duration: 0.8, delay: 0.8 }}
@@ -247,7 +247,7 @@ export const Hero = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 1.2 }}
               >
-                <span className="text-sm text-muted-foreground font-mono">
+                <span className="text-base text-muted-foreground font-mono">
                   Find me →
                 </span>
                 {socialLinks.map((social, idx) => (

@@ -174,11 +174,11 @@ export const Experience = () => {
                             </span>
                           )}
                         </div>
-                        <h3 className="text-lg sm:text-xl font-semibold group-hover:text-primary transition-colors">
+                        <h3 className="text-xl sm:text-2xl font-semibold group-hover:text-primary transition-colors">
                           {exp.role}
                         </h3>
-                        <p className="text-muted-foreground text-sm">{exp.company}</p>
-                        <p className="text-xs sm:text-sm text-muted-foreground mt-4 leading-relaxed">
+                        <p className="text-muted-foreground text-base">{exp.company}</p>
+                        <p className="text-sm sm:text-base text-muted-foreground mt-4 leading-relaxed">
                           {exp.description}
                         </p>
                         <div
@@ -240,10 +240,10 @@ export const Experience = () => {
                     <span className="text-sm text-primary font-mono">
                       {edu.period}
                     </span>
-                    <h3 className="text-base sm:text-lg font-semibold mt-2 group-hover:text-primary transition-colors">
+                    <h3 className="text-lg sm:text-xl font-semibold mt-2 group-hover:text-primary transition-colors">
                       {edu.degree}
                     </h3>
-                    <p className="text-muted-foreground text-xs sm:text-sm mt-1">
+                    <p className="text-muted-foreground text-sm mt-1">
                       {edu.institution}
                     </p>
                     {edu.detail && (

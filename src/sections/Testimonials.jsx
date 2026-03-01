@@ -150,7 +150,7 @@ export const Testimonials = () => {
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
+            <p className="text-muted-foreground leading-relaxed text-base sm:text-base">
               A comprehensive toolkit spanning full-stack development, AI/ML
               research, computer vision, and modern DevOps practices.
             </p>

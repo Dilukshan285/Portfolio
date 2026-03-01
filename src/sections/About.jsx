@@ -119,7 +119,7 @@ export const About = () => {
             </Reveal>
 
             <Reveal delay={0.2}>
-              <div className="space-y-4 text-muted-foreground leading-relaxed text-sm sm:text-base">
+              <div className="space-y-4 text-muted-foreground leading-relaxed text-base sm:text-base">
                 <p>
                   I'm a final-year BSc Information Technology undergraduate at
                   SLIIT with a passion for bridging the gap between intelligent
@@ -191,10 +191,10 @@ export const About = () => {
                     >
                       <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary group-hover:drop-shadow-[0_0_8px_rgba(0,245,212,0.5)]" />
                     </motion.div>
-                    <h3 className="text-base sm:text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
                       {item.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                       {item.description}
                     </p>
                   </motion.div>
